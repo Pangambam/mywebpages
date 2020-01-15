@@ -1,6 +1,8 @@
 @charset "UTF-8";
 
 .footer{
+	border-top: 4px solid green;
+	border-bottom: 2px solid green;
 	background:linear-gradient(grey,black);
 	position: fixed;
 	padding-top: 5px;
@@ -73,6 +75,11 @@
 	
 }
 
+.list li a{
+	color:black;
+	text-decoration: none;
+}
+
 .container {
 	background-color: #FFFFFF;
 	width: 100%;
@@ -130,6 +137,7 @@
 	color: #01B2D1;
 }
 .primary_header {
+	border-top: 4px solid green;
 	width: 100%;
 	background: linear-gradient(#0d0117, #330335);
 	padding-top: 1px;

@@ -1,6 +1,8 @@
 @charset "UTF-8";
 
 .footer{
+	border-top: 4px solid green;
+	border-bottom: 2px solid green;
 	background:linear-gradient(grey,black);
 	position: fixed;
 	padding-top: 5px;
@@ -127,8 +129,8 @@
 	background: linear-gradient(#0d0117, #330335);
 	padding-top: 1px;
 	clear: left;
-	border-bottom: 4px solid green;
 	border-top: 4px solid green;
+	border-bottom: 4px solid green;
 }
 .secondary_header {
 	width: 100%;

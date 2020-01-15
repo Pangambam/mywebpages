@@ -128,6 +128,7 @@
 	padding-top: 1px;
 	clear: left;
 	border-bottom: 4px solid green;
+	border-top: 4px solid green;
 }
 .secondary_header {
 	width: 100%;

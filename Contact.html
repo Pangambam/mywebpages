@@ -40,47 +40,39 @@
 						<section>
 						<center>
 							<h3>Pangambam Sendash Singh</h3>
-							<p>
-							Senior Research Fellow (SRF)<br/>
-							Department of Computer Science<br/>
-							Institute of Science<br/>
-							Banaras Hindu University (BHU)<br/>
-							Varanasi, Uttar Pradesh, India - 221005
-							<p>
+
 							&#9742; +91-8014391934 <br/>
 							&#x2709; info@pangambam.in
 						</center>
 						</ul>
 						
-						<h3>Drop me a line...</h3>
-							<form method="post" action="http://wa.link/4l9ffe">
-								<div class="row uniform 50%">
-									<div class="6u 12u$(xsmall)">
-										<input type="text" name="name" id="name" value="" placeholder="Name" />
-									</div>
-									<div class="6u$ 12u$(xsmall)">
-										<input type="email" name="email" id="email" value="" placeholder="Email" />
-									</div>
-
-									<div class="6u 12u$(small)">
-										<input type="checkbox" id="copy" name="copy">
-										<label for="copy">Email me a copy of this message</label>
-									</div>
-									<div class="6u$ 12u$(small)">
-										<input type="checkbox" id="human" name="human" checked>
-										<label for="human">I am a human and not a robot</label>
-									</div>
-									<div class="12u$">
-										<textarea name="message" id="message" placeholder="Enter your message" rows="6"></textarea>
-									</div>
-									<div class="12u$">
-										<ul class="actions">
-											<li><input type="submit" value="Send Message" class="special" /></li>
-											<li><input type="reset" value="Reset" /></li>
-										</ul>
-									</div>
-								</div>
-							</form>
+		<div class="container register">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tab-pane fade show active text-align form-new" id="home" role="tabpanel" aria-labelledby="home-tab">
+						<h3 class="register-heading">Drop me a line...</h3>
+                            <div class="row register-form">
+                                <div class="col-md-12">
+                                    <form method="post" autocomplete="off" name="google-sheet">
+                                        <div class="form-group">
+                                            <input type="text" name="Name" class="form-control" placeholder="Your Name *" value="" required=""/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="Email" class="form-control" placeholder="Your Email *" value="" required=""/>
+                                        </div>
+										<div class="form-group">
+                                            <input type="text" name="Message" class="form-control" placeholder="Your Message *" value="" required=""/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" name="submit" class="btnSubmit btn-block" value="Submit" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
 						
 						
 						
@@ -108,6 +100,25 @@
 			</footer>
 
 		<!-- Scripts -->
+		
+		
+		<script>
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbzlui_0r4JK-BX9WrtgAz0boRWn4SHk4jN3BFZ_cgq3rJVN7vc/exec'
+            const form = document.forms['google-sheet']
+          
+            form.addEventListener('submit', e => {
+              e.preventDefault()
+              fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => alert("Thanks for Contacting me..! Will Contact You Soon..."))
+                .catch(error => console.error('Error!', error.message))
+            })
+        </script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		
+		
+		
+		  
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>

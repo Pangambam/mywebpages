@@ -3298,3 +3298,65 @@
     margin: 0 auto;
     padding-top: 2px;
 }
+
+
+
+
+
+
+
+/*MAIL CONTACT STYLE*/
+
+.register .nav-tabs .nav-link:hover{
+	border: none;
+}
+
+.text-align{
+	margin-top: 1%;
+	margin-bottom: 1%;
+	padding: 3%;
+    margin-left: 30%;
+}
+
+.form-new{       
+	margin-right: 1%;
+    margin-left: 1%;
+}
+			
+.register-heading{
+	margin-left: 1%;
+    margin-bottom: 1%;
+    color: #00000;
+}
+			
+.register-heading h1{
+    color: #e9ecef;
+}
+			
+.register{
+	margin-top: 3%;
+	padding: 3%;
+	border-radius: 2.5rem;
+}
+			
+.btnSubmit
+{
+	width: 30%;
+	border-radius: 1rem;
+	padding: 1.5%;
+	color: #fff;
+	background-color: #03612e;
+	border: none;
+	cursor: pointer;
+	margin-right: 6%;
+	color: rgb(246, 246, 252);
+	margin-top: 4%;
+}
+
+.col-md-12{
+	width: 100%;
+}
+
+.form-group{
+	color: #000000;
+}

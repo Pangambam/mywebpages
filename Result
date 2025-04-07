@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Marks</title>
+</head>
+<body>
+  <h1>Check Your Marks</h1>
+  <input type="text" id="rollInput" placeholder="Enter Roll Number">
+  <button onclick="searchMarks()">Check</button>
+  <p id="result"></p>
+
+  <script>
+    let marksData = {};
+
+    fetch('marks.json') // your uploaded file name
+      .then(response => response.json())
+      .then(data => { marksData = data; });
+
+    function searchMarks() {
+      const roll = document.getElementById("rollInput").value.trim();
+      const student = marksData.find(s => s.roll === roll);
+      const resultDiv = document.getElementById("result");
+
+      if (student) {
+        resultDiv.innerHTML = `Name: ${student.name}<br>Marks: ${student.marks}`;
+      } else {
+        resultDiv.innerHTML = "Roll number not found.";
+      }
+    }
+  </script>
+</body>
+</html>

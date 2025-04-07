@@ -1,79 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Student Marksheet</title>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f4f4f4;
-      padding: 50px;
+      padding: 30px;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
     input {
-      padding: 10px;
+      width: 100%;
+      padding: 12px;
       font-size: 16px;
-      margin: 5px;
-      width: 300px;
-      max-width: 90%;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
 
     button:disabled {
-      background-color: #ccc;
+      background-color: #999;
+      cursor: not-allowed;
     }
+
     #result {
-      margin-top: 30px;
+      margin-top: 20px;
       padding: 20px;
       font-size: 18px;
-      color: #222;
-      background-color: #ffffff;
+      background-color: #fefefe;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      display: inline-block;
-      min-width: 280px;
-}
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      color: #222;
+    }
 
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 20px;
+      }
+
+      input, button {
+        font-size: 15px;
+      }
+    }
   </style>
 </head>
 <body>
-
-  <h1>MTE-I: Python (Theory)</h1>
-  <input type="text" id="rollInput" placeholder="Enter Roll Number (e.g. Y23170513)" />
-  <button id="checkBtn" onclick="searchMarks()" disabled>Submit</button>
-  <div id="result"></div>
+  <div class="container">
+    <h1>Check Your Marks</h1>
+    <input type="text" id="rollInput" placeholder="Enter Roll Number (e.g. Y23170513)" />
+    <button id="checkBtn" onclick="searchMarks()" disabled>Submit</button>
+    <div id="result"></div>
+  </div>
 
   <script>
     let marksData = [];
     const checkBtn = document.getElementById("checkBtn");
 
-    // Load CSV from assets folder
+    // Load CSV
     Papa.parse("assets/PythonTheory.csv", {
       download: true,
       header: true,
       complete: function(results) {
         marksData = results.data;
         checkBtn.disabled = false;
-        console.log("CSV loaded successfully");
+        console.log("CSV loaded.");
       },
       error: function(err) {
         document.getElementById("result").innerHTML = "Error loading marksheet.";
-        console.error("CSV load error:", err);
+        console.error(err);
       }
     });
 
     function searchMarks() {
       const roll = document.getElementById("rollInput").value.trim().toUpperCase();
       const resultDiv = document.getElementById("result");
-
       const student = marksData.find(s => s.Roll_No && s.Roll_No.trim().toUpperCase() === roll);
 
       if (student) {
         resultDiv.innerHTML = `
-        <div>
-        <div><strong>🎓 Roll No:</strong> ${student.Roll_No}</div>
-        <div><strong>📊 Mark:</strong> ${student.Mark}</div>
-        </div>`;
-
+          <div>
+            <div><strong>🎓 Roll No:</strong> ${student.Roll_No}</div>
+            <div><strong>📊 Mark:</strong> ${student.Mark}</div>
+          </div>
+        `;
       } else {
         resultDiv.innerHTML = "Roll number not found.";
       }

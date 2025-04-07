@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Python Theory Mid Term-I Marks</title>
+  <title>Student Marksheet</title>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <style>
-    body { font-family: Arial; margin: 50px; text-align: center; }
-    input, button { padding: 10px; font-size: 16px; }
-    #result { margin-top: 20px; font-size: 18px; }
+    body { font-family: Arial; padding: 40px; text-align: center; background-color: #f4f4f4; }
+    input, button { padding: 10px; font-size: 16px; margin: 5px; }
+    #result { margin-top: 20px; font-size: 18px; color: #333; }
   </style>
 </head>
 <body>
-  <h1>Check Your Marks</h1>
+  <h1>Mid Term Exam 1: Python</h1>
   <input type="text" id="rollInput" placeholder="Enter Roll Number" />
   <button onclick="searchMarks()">Submit</button>
   <div id="result"></div>
@@ -18,7 +18,7 @@
   <script>
     let marksData = [];
 
-    // Load the CSV file (replace with your CSV file path if different)
+    // Load the CSV file
     Papa.parse("assets/PythonTheory.csv", {
       download: true,
       header: true,
@@ -28,12 +28,12 @@
     });
 
     function searchMarks() {
-      const roll = document.getElementById("rollInput").value.trim();
-      const student = marksData.find(s => s.Roll === roll);
+      const roll = document.getElementById("rollInput").value.trim().toUpperCase();
+      const student = marksData.find(s => s.Roll_No === roll);
       const resultDiv = document.getElementById("result");
 
       if (student) {
-        resultDiv.innerHTML = `<strong>Roll:</strong> ${student.Roll}<br><strong>Marks:</strong> ${student.Marks}`;
+        resultDiv.innerHTML = `<strong>Roll No:</strong> ${student.Roll_No}<br><strong>Mark:</strong> ${student.Mark}`;
       } else {
         resultDiv.innerHTML = "Roll number not found.";
       }

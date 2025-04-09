@@ -98,13 +98,16 @@
       <i class="fas fa-home"></i> Home
     </a>
 
-    <h1>Student Marksheet</h1>
+    <h1>MID TERM EXAMINATION - I MARKSHEET</h1>
 
     <select id="examSelect" onchange="loadSelectedCSV()">
       <option value="">-- Select Exam --</option>
-      <option value="assets/CPPLab.csv">MTE-I: C++ (Lab)</option>
-      <option value="assets/PythonLab.csv">MTE-II: Python (Lab)</option>
-      <option value="assets/DBMSLab.csv">MTE-III: DBMS (Lab)</option>
+      <option value="assets/ToC-MCA-MTE1.csv">Theory of Computation - MCA Sem II</option>
+      <option value="assets/ToC-BCA-MTE1.csv">Theory of Computation - - BCA Sem VI</option>
+      <option value="assets/PythonTheory.csv">Python (Theory) - BCA Sem IV</option>
+      <option value="assets/PythonLab.csv">Python (Lab) - BCA Sem IV</option>
+      <option value="assets/Sec.csv">SEC - Sem IV</option>
+      <option value="assets/CPPLab.csv">C++ (Lab) - BCA Sem II</option>
     </select>
 
     <input type="text" id="rollInput" placeholder="Enter Roll Number (e.g. Y24170501)" />
@@ -119,7 +122,7 @@
 
     <hr style="margin-top: 30px;"/>
     <p style="font-size: 14px; color: #666; margin-top: 10px;">
-      &copy; 2025 <a href="https://pagambam.in" target="_blank" style="color: #007BFF; text-decoration: none;">pagambam.in</a>
+      &copy; 2025 <a href="https://pagambam.in" target="_blank" style="color: #007BFF; text-decoration: none;">Pangambam</a>
     </p>
   </div>
 
@@ -146,11 +149,11 @@
         header: true,
         complete: function(results) {
           marksData = results.data;
-          resultDiv.innerHTML = 'CSV loaded. Please enter roll number.';
+          resultDiv.innerHTML = 'Please enter roll number.';
           checkBtn.disabled = false;
         },
         error: function(err) {
-          resultDiv.innerHTML = "Error loading marksheet.";
+          resultDiv.innerHTML = "Final Mark not read. Please try after sometime.";
           console.error(err);
         }
       });

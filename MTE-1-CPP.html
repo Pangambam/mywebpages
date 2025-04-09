@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Student Marksheet</title>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     * {
       box-sizing: border-box;
@@ -34,7 +35,7 @@
       font-size: 24px;
     }
 
-    input {
+    select, input {
       width: 100%;
       padding: 12px;
       font-size: 16px;
@@ -85,7 +86,7 @@
         font-size: 20px;
       }
 
-      input, button {
+      input, button, select {
         font-size: 15px;
       }
     }
@@ -93,13 +94,35 @@
 </head>
 <body>
   <div class="container">
-    <h1>MTE-I: C++ (Lab)</h1>
+    <a href="index.html" style="display: inline-block; margin-bottom: 20px; text-decoration: none; color: #007BFF; font-weight: bold; font-size: 18px;">
+      <i class="fas fa-home"></i> Home
+    </a>
+
+    <h1>MID TERM EXAMINATION - I</h1>
+
+    <select id="examSelect" onchange="loadSelectedCSV()">
+      <option value="">-- Select Exam --</option>
+      <option value="assets/ToC-MCA-MTE1.csv">Theory of Computation - MCA Sem II</option>
+      <option value="assets/ToC-BCA-MTE1.csv">Theory of Computation - - BCA Sem VI</option>
+      <option value="assets/PythonTheory.csv">Python (Theory) - BCA Sem IV</option>
+      <option value="assets/PythonLab.csv">Python (Lab) - BCA Sem IV</option>
+      <option value="assets/Sec.csv">SEC - Sem IV</option>
+      <option value="assets/CPPLab.csv">C++ (Lab) - BCA Sem II</option>
+    </select>
+
     <input type="text" id="rollInput" placeholder="Enter Roll Number (e.g. Y24170501)" />
     <button id="checkBtn" onclick="searchMarks()" disabled>Submit</button>
+
     <div id="result"></div>
+
     <p id="disclaimer">
       ⚠️ <strong>Disclaimer:</strong> The marks displayed here are for quick reference only.
       In case of any discrepancy, students are advised to verify their marks from the original evaluated manuscript.
+    </p>
+
+    <hr style="margin-top: 30px;"/>
+    <p style="font-size: 14px; color: #666; margin-top: 10px;">
+      &copy; 2025 <a href="https://pagambam.in" target="_blank" style="color: #007BFF; text-decoration: none;">Pangambam</a>
     </p>
   </div>
 
@@ -107,20 +130,34 @@
     let marksData = [];
     const checkBtn = document.getElementById("checkBtn");
 
-    // Load CSV
-    Papa.parse("assets/CPPLab.csv", {
-      download: true,
-      header: true,
-      complete: function(results) {
-        marksData = results.data;
-        checkBtn.disabled = false;
-        console.log("CSV loaded.");
-      },
-      error: function(err) {
-        document.getElementById("result").innerHTML = "Error loading marksheet.";
-        console.error(err);
+    function loadSelectedCSV() {
+      const examSelect = document.getElementById("examSelect");
+      const selectedCSV = examSelect.value;
+      const resultDiv = document.getElementById("result");
+      marksData = [];
+      checkBtn.disabled = true;
+
+      if (!selectedCSV) {
+        resultDiv.innerHTML = '';
+        return;
       }
-    });
+
+      resultDiv.innerHTML = 'Loading marks...';
+
+      Papa.parse(selectedCSV, {
+        download: true,
+        header: true,
+        complete: function(results) {
+          marksData = results.data;
+          resultDiv.innerHTML = 'Please enter roll number.';
+          checkBtn.disabled = false;
+        },
+        error: function(err) {
+          resultDiv.innerHTML = "Final Mark not ready. Please try after sometime.";
+          console.error(err);
+        }
+      });
+    }
 
     function searchMarks() {
       const roll = document.getElementById("rollInput").value.trim().toUpperCase();

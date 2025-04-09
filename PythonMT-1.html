@@ -69,6 +69,17 @@
       color: #222;
     }
 
+    #disclaimer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #a00;
+      background-color: #fff8f8;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #f5c2c2;
+      text-align: left;
+    }
+
     @media (max-width: 480px) {
       h1 {
         font-size: 20px;
@@ -83,9 +94,13 @@
 <body>
   <div class="container">
     <h1>MTE-I: Python (Theory)</h1>
-    <input type="text" id="rollInput" placeholder="Enter Roll Number (e.g. Y23170513)" />
+    <input type="text" id="rollInput" placeholder="Enter Roll Number (e.g. Y24170501)" />
     <button id="checkBtn" onclick="searchMarks()" disabled>Submit</button>
     <div id="result"></div>
+    <p id="disclaimer">
+      ⚠️ <strong>Disclaimer:</strong> The marks displayed here are for quick reference only.
+      In case of any discrepancy, students are advised to verify their marks from the original evaluated manuscript.
+    </p>
   </div>
 
   <script>

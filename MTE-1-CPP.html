@@ -93,8 +93,8 @@
 </head>
 <body>
   <div class="container">
-    <h1>MTE-I: Python (Theory)</h1>
-    <input type="text" id="rollInput" placeholder="Enter Roll Number (e.g. Y23170513)" />
+    <h1>MTE-I: C++ (Lab)</h1>
+    <input type="text" id="rollInput" placeholder="Enter Roll Number (e.g. Y24170501)" />
     <button id="checkBtn" onclick="searchMarks()" disabled>Submit</button>
     <div id="result"></div>
     <p id="disclaimer">
@@ -108,7 +108,7 @@
     const checkBtn = document.getElementById("checkBtn");
 
     // Load CSV
-    Papa.parse("assets/PythonTheory.csv", {
+    Papa.parse("assets/CPPLab.csv", {
       download: true,
       header: true,
       complete: function(results) {
@@ -130,8 +130,8 @@
       if (student) {
         resultDiv.innerHTML = `
           <div>
-            <div><strong>🎓 Roll No:</strong> ${student.Roll_No}</div>
-            <div><strong>📊 Mark:</strong> ${student.Mark}</div>
+            <div><strong> Roll No:</strong> ${student.Roll_No}</div>
+            <div><strong> Mark:</strong> ${student.Mark}</div>
           </div>
         `;
       } else {

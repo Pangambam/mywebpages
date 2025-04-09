@@ -98,7 +98,7 @@
       <i class="fas fa-home"></i> Home
     </a>
 
-    <h1>MID TERM EXAMINATION - I MARKSHEET</h1>
+    <h1>MID TERM EXAMINATION - I</h1>
 
     <select id="examSelect" onchange="loadSelectedCSV()">
       <option value="">-- Select Exam --</option>
@@ -153,7 +153,7 @@
           checkBtn.disabled = false;
         },
         error: function(err) {
-          resultDiv.innerHTML = "Final Mark not read. Please try after sometime.";
+          resultDiv.innerHTML = "Final Mark not ready. Please try after sometime.";
           console.error(err);
         }
       });

@@ -162,16 +162,22 @@
     function searchMarks() {
       const roll = document.getElementById("rollInput").value.trim().toUpperCase();
       const resultDiv = document.getElementById("result");
+
+      if (!roll) {
+        resultDiv.innerHTML = "⚠️ Please enter roll number.";
+        return;
+      }
+
       const student = marksData.find(s => s.Roll_No && s.Roll_No.trim().toUpperCase() === roll);
 
       if (student) {
         resultDiv.innerHTML = `
-          <div>
-            <div><strong> Roll No:</strong> ${student.Roll_No}</div>
-            <div><strong> Mark:</strong> ${student.Mark}</div>
-          </div>
-        `;
-      } else {
+        <div>
+          <div><strong> Roll No:</strong> ${student.Roll_No}</div>
+          <div><strong> Mark:</strong> ${student.Mark}</div>
+        </div> `;
+        }
+      else {
         resultDiv.innerHTML = "Roll number not found.";
       }
     }

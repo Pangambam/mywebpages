@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,5 +8,34 @@
   <h1>Oops! Page not found.</h1>
   <p>The page you're looking for doesn't exist.</p>
   <a href="/">Go to Home</a>
+</body>
+</html>
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Page Not Found</title>
+</head>
+<body>
+  <h1>Oops! Page not found.</h1>
+  <p>Trying to locate something for you...</p>
+
+  <script>
+    const path = window.location.pathname;
+
+    // Example: redirect all /student/rollno requests
+    if (path.startsWith("/student/")) {
+      const roll = path.split("/").pop();
+      // Redirect to student-lookup.html with roll as query
+      window.location.href = `/student-lookup.html?roll=${roll}`;
+    }
+
+    // You can add more routes here as needed
+    // else, show a normal 404 message
+  </script>
 </body>
 </html>

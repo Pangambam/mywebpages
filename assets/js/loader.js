@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a) // bold if "Sendash"
     .join(", "); // join non-empty authors
 
-  return `${authors}. <b><i>"${title}"</i></b>, ${journal}. doi: <a href="${doi}" target="_blank"><i>${doi}</i></a>`;
+  return `${authors}. <b><i>"${title}"</i></b>, ${journal}. doi: <a href="${doi}" target="_blank">${doi}</a>`;
 });
 
 
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a) // bold if "Sendash"
     .join(", "); // join non-empty authors
 
-  return `${authors}. <b><i>"${title}"</i></b>, ${journal}. doi: <a href="${doi}" target="_blank"><i>${doi}</i></a>`;
+  return `${authors}. <b><i>"${title}"</i></b>, ${journal}. doi: <a href="${doi}" target="_blank">${doi}</a>`;
 });
 
   // Book Chapters

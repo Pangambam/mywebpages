@@ -10,10 +10,14 @@ async function loadCSVToUL(csvPath, ulId, formatter) {
     li.innerHTML = formatter(cols);
     ul.appendChild(li);
   });
+
+  // ✅ Refresh AOS after each section is updated
+  if (typeof AOS !== "undefined" && typeof AOS.refresh === "function") {
+    AOS.refresh();
+  }
 }
 
-window.onload = () => {
-
+document.addEventListener("DOMContentLoaded", () => {
   // Journal Publications
   loadCSVToUL("data/journals.csv", "journal-publications", ([a1, a2, a3, title, journal, doi]) => {
     const authors = [a1, a2, a3]
@@ -46,7 +50,7 @@ window.onload = () => {
     return `<b><i>${title}</i></b>${journal ? `, ${journal}` : ""}. <a href="${link}" target="_blank">[Link]</a>`;
   });
 
-  // Research Interest
+  // Research Interests
   loadCSVToUL("data/researchinterests.csv", "research-interest", ([i]) => i);
 
   // Professional Activities
@@ -66,17 +70,10 @@ window.onload = () => {
   );
 
   // Conference Participation
-  loadCSVToUL("data/confparticipation.csv", "conference-participation", ([r, e]) =>
-    `Served as <b>${r}</b> – <i>${e}</i>`
+  loadCSVToUL("data/confparticipation.csv", "conference-participation", ([role, event]) =>
+    `Served as <b>${role}</b> – <i>${event}</i>`
   );
 
-  // Mark body as loaded (to fix layout jump)
-  setTimeout(() => {
-    document.body.classList.add("loaded");
-
-    // ✅ Actively refresh AOS animations after loading
-    if (typeof AOS !== "undefined" && typeof AOS.refreshHard === "function") {
-      AOS.refreshHard();
-    }
-  }, 300);
-};
+  // Mark body as loaded
+  document.body.classList.add("loaded");
+});

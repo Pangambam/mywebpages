@@ -1109,3 +1109,14 @@ section {
 .justified-text {
     text-align: justify;
   }
+
+body:not(.loaded) .portfolio-wrap {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+body.loaded .portfolio-wrap {
+  visibility: visible;
+  opacity: 1;
+}

@@ -42,8 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
       .filter(a => a.trim() !== "")
       .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a)
       .join(", ");
-    return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. <a href="${doi}" target="_blank">[Link]</a>`;
-  });
+    return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. <a href="https://doi.org/${doi}" target="_blank">doi: ${doi}</a>`;
+});
 
   // Other Publications
   loadCSVToUL("data/otherpublications.csv", "other-publications", ([title, journal, link]) => {

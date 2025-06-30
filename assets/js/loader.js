@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
       .filter(a => a.trim() !== "")
       .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a)
       .join(", ");
-    return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. <a href="${doi}" target="_blank">[Link]</a>`;
-  });
+    return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. doi: <a href="https://doi.org/${doi}" target="_blank"><i>${doi}</i></a>`;
+});
 
   // Conference Proceedings
   loadCSVToUL("data/conferences.csv", "conference-proceedings", ([a1, a2, a3, title, journal, doi]) => {
@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
       .filter(a => a.trim() !== "")
       .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a)
       .join(", ");
-    return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. <a href="${doi}" target="_blank">[Link]</a>`;
-  });
+    return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. doi: <a href="https://doi.org/${doi}" target="_blank"><i>${doi}</i></a>`;
+});
 
   // Book Chapters
   loadCSVToUL("data/books.csv", "book-chapters", ([a1, a2, a3, title, journal, doi]) => {
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .filter(a => a.trim() !== "")
       .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a)
       .join(", ");
-    return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. <a href="https://doi.org/${doi}" target="_blank">doi: ${doi}</a>`;
+    return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. doi: <a href="https://doi.org/${doi}" target="_blank"><i>${doi}</i></a>`;
 });
 
   // Other Publications

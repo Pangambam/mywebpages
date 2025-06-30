@@ -12,63 +12,86 @@ async function loadCSVToUL(csvPath, ulId, formatter) {
   });
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const tasks = [];
-
-  // Helper wrapper for collecting promises
-  const scheduleLoad = (csvPath, ulId, formatter) => {
-    tasks.push(loadCSVToUL(csvPath, ulId, formatter));
-  };
-
-  // Load all CSV sections
-  scheduleLoad("data/journals.csv", "journal-publications", ([a1, a2, a3, title, journal, doi]) => {
+// Formatter map
+const formatters = {
+  "journal-publications": ([a1, a2, a3, title, journal, doi]) => {
     const authors = [a1, a2, a3]
       .filter(a => a.trim() !== "")
       .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a)
       .join(", ");
     return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. doi: <a href="https://doi.org/${doi}" target="_blank"><i>${doi}</i></a>`;
-  });
-
-  scheduleLoad("data/conferences.csv", "conference-proceedings", ([a1, a2, a3, title, journal, doi]) => {
+  },
+  "conference-proceedings": ([a1, a2, a3, title, journal, doi]) => {
     const authors = [a1, a2, a3]
       .filter(a => a.trim() !== "")
       .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a)
       .join(", ");
     return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. doi: <a href="https://doi.org/${doi}" target="_blank"><i>${doi}</i></a>`;
-  });
-
-  scheduleLoad("data/books.csv", "book-chapters", ([a1, a2, a3, title, journal, doi]) => {
+  },
+  "book-chapters": ([a1, a2, a3, title, journal, doi]) => {
     const authors = [a1, a2, a3]
       .filter(a => a.trim() !== "")
       .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a)
       .join(", ");
     return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. doi: <a href="https://doi.org/${doi}" target="_blank"><i>${doi}</i></a>`;
-  });
-
-  scheduleLoad("data/otherpublications.csv", "other-publications", ([title, journal, link]) => {
+  },
+  "other-publications": ([title, journal, link]) => {
     return `<b><i>${title}</i></b>${journal ? `, ${journal}` : ""}. <a href="${link}" target="_blank">[Link]</a>`;
-  });
-
-  scheduleLoad("data/researchinterests.csv", "research-interest", ([i]) => i);
-  scheduleLoad("data/activities.csv", "professional-activities", ([r, j, l]) =>
-    `${r} of <i><a href="${l}" target="_blank"><b>${j}</b></a></i>`
-  );
-  scheduleLoad("data/theorycourse.csv", "theory-courses", ([i]) => i);
-  scheduleLoad("data/labcourse.csv", "lab-courses", ([i]) => i);
-  scheduleLoad("data/talks.csv", "invited-talks", ([title, program, organizer, date]) =>
-    `<b>${title}</b>: <i>${program}</i> organized by <i>${organizer}</i>, ${date}`
-  );
-  scheduleLoad("data/confparticipation.csv", "conference-participation", ([role, event]) =>
+  },
+  "research-interest": ([i]) => i,
+  "professional-activities": ([r, j, l]) =>
+    `${r} of <i><a href="${l}" target="_blank"><b>${j}</b></a></i>`,
+  "theory-courses": ([i]) => i,
+  "lab-courses": ([i]) => i,
+  "invited-talks": ([title, program, organizer, date]) =>
+    `<b>${title}</b>: <i>${program}</i> organized by <i>${organizer}</i>, ${date}`,
+  "conference-participation": ([role, event]) =>
     `Served as <b>${role}</b> – <i>${event}</i>`
-  );
+};
 
-  // Wait for all CSVs to load and content to be appended
-  await Promise.all(tasks);
+// CSV file map
+const csvMap = {
+  "journal-publications": "data/journals.csv",
+  "conference-proceedings": "data/conferences.csv",
+  "book-chapters": "data/books.csv",
+  "other-publications": "data/otherpublications.csv",
+  "research-interest": "data/researchinterests.csv",
+  "professional-activities": "data/activities.csv",
+  "theory-courses": "data/theorycourse.csv",
+  "lab-courses": "data/labcourse.csv",
+  "invited-talks": "data/talks.csv",
+  "conference-participation": "data/confparticipation.csv"
+};
 
-  // ✅ Refresh AOS and reveal the body
+// Track already loaded sections
+const loadedSections = new Set();
+
+document.addEventListener("DOMContentLoaded", async () => {
+  // Load "Publications" section by default
+  await loadCSVToUL("data/journals.csv", "journal-publications", formatters["journal-publications"]);
+  loadedSections.add("journal-publications");
+
   if (typeof AOS !== "undefined" && typeof AOS.refresh === "function") {
     AOS.refresh();
   }
-
   document.body.classList.add("loaded");
+
+  // Lazy load other tabs on click
+  const filterButtons = document.querySelectorAll(".filter-btn"); // Update class based on your HTML
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const target = btn.getAttribute("data-target"); // Assuming data-target="#research-interest"
+      const sectionId = target?.replace("#", "");
+
+      if (sectionId && !loadedSections.has(sectionId) && csvMap[sectionId]) {
+        await loadCSVToUL(csvMap[sectionId], sectionId, formatters[sectionId]);
+        loadedSections.add(sectionId);
+
+        if (typeof AOS !== "undefined" && typeof AOS.refresh === "function") {
+          AOS.refresh();
+        }
+      }
+    });
+  });
 });

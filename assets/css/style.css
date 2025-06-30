@@ -1116,6 +1116,20 @@ body:not(.loaded) .portfolio-wrap {
   transition: opacity 0.3s ease;
 }
 
+
+
+
+body:not(.loaded) .content-section {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+body.loaded .content-section {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 body.loaded .portfolio-wrap {
   visibility: visible;
   opacity: 1;

@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
     // --- Publications ---
-    scheduleLoad("data/journals.csv", "journal-publications", ([a1, a2, a3, title, journal, doi]) => {
+    scheduleLoad("data/Publications/journals.csv", "journal-publications", ([a1, a2, a3, title, journal, doi]) => {
         const authors = [a1, a2, a3]
             .filter(a => a.trim() !== "")
             .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a)
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. doi: <a href="https://doi.org/${doi}" target="_blank"><i>${doi}</i></a>`;
     });
 
-    scheduleLoad("data/conferences.csv", "conference-proceedings", ([a1, a2, a3, title, journal, doi]) => {
+    scheduleLoad("data/Publications/conferences.csv", "conference-proceedings", ([a1, a2, a3, title, journal, doi]) => {
         const authors = [a1, a2, a3]
             .filter(a => a.trim() !== "")
             .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a)
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. doi: <a href="https://doi.org/${doi}" target="_blank"><i>${doi}</i></a>`;
     });
 
-    scheduleLoad("data/books.csv", "book-chapters", ([a1, a2, a3, title, journal, doi]) => {
+    scheduleLoad("data/Publications/books.csv", "book-chapters", ([a1, a2, a3, title, journal, doi]) => {
         const authors = [a1, a2, a3]
             .filter(a => a.trim() !== "")
             .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a)

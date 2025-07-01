@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
     // --- Notification Marquee ---
-    scheduleLoad("data/notifications.csv", "notification-marquee", ([msg]) => msg, true);
+    scheduleLoad("data/Notifications/notifications.csv", "notification-marquee", ([msg]) => msg, true);
 
     // Wait for all CSVs to load and content to be appended
     await Promise.all(tasks);

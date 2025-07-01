@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         tasks.push(loadCSVToUL(csvPath, ulId, formatter));
     };
 
-    // Load all CSV sections
+    // --- Publications ---
     scheduleLoad("data/journals.csv", "journal-publications", ([a1, a2, a3, title, journal, doi]) => {
         const authors = [a1, a2, a3]
             .filter(a => a.trim() !== "")
@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return `<b><i>${title}</i></b>${journal ? `, ${journal}` : ""}. <a href="${link}" target="_blank">[Link]</a>`;
     });
 
+    // --- Research, Teaching, Activities ---
     scheduleLoad("data/researchinterests.csv", "research-interest", ([i]) => i);
     scheduleLoad("data/activities.csv", "professional-activities", ([r, j, l]) =>
         `${r} of <i><a href="${l}" target="_blank"><b>${j}</b></a></i>`
@@ -67,6 +68,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
     scheduleLoad("data/confparticipation.csv", "conference-participation", ([role, event]) =>
         `Served as <b>${role}</b> – <i>${event}</i>`
+    );
+
+    // --- Supervision Section ---
+    scheduleLoad("data/phd-students.csv", "phd-students", ([name, topic, status]) =>
+        `<b>${name}</b>: <i>${topic}</i> <span style="color:gray;">(${status})</span>`
+    );
+
+    scheduleLoad("data/master-students.csv", "master-students", ([name, topic, year]) =>
+        `<b>${name}</b>: <i>${topic}</i> <span style="color:gray;">[${year}]</span>`
+    );
+
+    scheduleLoad("data/bachelor-students.csv", "bachelor-students", ([name, project, year]) =>
+        `<b>${name}</b>: <i>${project}</i> <span style="color:gray;">[${year}]</span>`
     );
 
     // Wait for all CSVs to load and content to be appended

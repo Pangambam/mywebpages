@@ -81,15 +81,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
     // --- Supervision Section ---
-    scheduleLoad("data/phd-students.csv", "phd-students", ([name, topic, status]) =>
+    scheduleLoad("data/Supervision/phd-students.csv", "phd-students", ([name, topic, status]) =>
         `<b>${name}</b>: <i>${topic}</i> <span style="color:gray;">(${status})</span>`
     );
 
-    scheduleLoad("data/master-students.csv", "master-students", ([name, topic, year]) =>
+    scheduleLoad("data/Supervision/master-students.csv", "master-students", ([name, topic, year]) =>
         `<b>${name}</b>: <i>${topic}</i> <span style="color:gray;">[${year}]</span>`
     );
 
-    scheduleLoad("data/bachelor-students.csv", "bachelor-students", ([name, project, year]) =>
+    scheduleLoad("data/Supervision/bachelor-students.csv", "bachelor-students", ([name, project, year]) =>
         `<b>${name}</b>: <i>${project}</i> <span style="color:gray;">[${year}]</span>`
     );
 

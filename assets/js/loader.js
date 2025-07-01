@@ -62,13 +62,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. doi: <a href="https://doi.org/${doi}" target="_blank"><i>${doi}</i></a>`;
     });
 
-    scheduleLoad("data/otherpublications.csv", "other-publications", ([title, journal, link]) => {
+    scheduleLoad("data/Publications/otherpublications.csv", "other-publications", ([title, journal, link]) => {
         return `<b><i>${title}</i></b>${journal ? `, ${journal}` : ""}. <a href="${link}" target="_blank">[Link]</a>`;
     });
 
     // --- Research, Teaching, Activities ---
-    scheduleLoad("data/researchinterests.csv", "research-interest", ([i]) => i);
-    scheduleLoad("data/activities.csv", "professional-activities", ([r, j, l]) =>
+    scheduleLoad("data/ResearchInterest/researchinterests.csv", "research-interest", ([i]) => i);
+    scheduleLoad("data/ResearchInterest/activities.csv", "professional-activities", ([r, j, l]) =>
         `${r} of <i><a href="${l}" target="_blank"><b>${j}</b></a></i>`
     );
     scheduleLoad("data/theorycourse.csv", "theory-courses", ([i]) => i);

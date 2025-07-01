@@ -1143,3 +1143,13 @@ body.loaded .portfolio-wrap {
 	word-wrap: break-word;
 	word-break: break-word;
 }
+
+#marquee-container {
+  background: #fffbdd;
+  border-bottom: 1px solid #e2d44f;
+  padding: 6px 12px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #e81005;
+  font-family: "Poppins", sans-serif;
+}

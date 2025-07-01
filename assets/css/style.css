@@ -1145,11 +1145,11 @@ body.loaded .portfolio-wrap {
 }
 
 #marquee-container {
-  background: #fffbdd;
-  border-bottom: 1px solid #e2d44f;
+  background: #d1fff1;
+  border-bottom: 1px solid #33ffc2;
   padding: 6px 12px;
   font-weight: 600;
   font-size: 14px;
-  color: #e81005;
+  color: #fc0505;
   font-family: "Poppins", sans-serif;
 }

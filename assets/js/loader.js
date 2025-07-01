@@ -71,8 +71,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     scheduleLoad("data/ResearchInterest/activities.csv", "professional-activities", ([r, j, l]) =>
         `${r} of <i><a href="${l}" target="_blank"><b>${j}</b></a></i>`
     );
-    scheduleLoad("data/theorycourse.csv", "theory-courses", ([i]) => i);
-    scheduleLoad("data/labcourse.csv", "lab-courses", ([i]) => i);
+    scheduleLoad("data/Teaching/theorycourse.csv", "theory-courses", ([i]) => i);
+    scheduleLoad("data/Teaching/labcourse.csv", "lab-courses", ([i]) => i);
     scheduleLoad("data/talks.csv", "invited-talks", ([title, program, organizer, date]) =>
         `<b>${title}</b>: <i>${program}</i> organized by <i>${organizer}</i>, ${date}`
     );

@@ -73,10 +73,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
     scheduleLoad("data/Teaching/theorycourse.csv", "theory-courses", ([i]) => i);
     scheduleLoad("data/Teaching/labcourse.csv", "lab-courses", ([i]) => i);
-    scheduleLoad("data/talks.csv", "invited-talks", ([title, program, organizer, date]) =>
+    scheduleLoad("data/Talks/talks.csv", "invited-talks", ([title, program, organizer, date]) =>
         `<b>${title}</b>: <i>${program}</i> organized by <i>${organizer}</i>, ${date}`
     );
-    scheduleLoad("data/confparticipation.csv", "conference-participation", ([role, event]) =>
+    scheduleLoad("data/Talks/confparticipation.csv", "conference-participation", ([role, event]) =>
         `Served as <b>${role}</b> – <i>${event}</i>`
     );
 

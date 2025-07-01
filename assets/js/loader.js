@@ -1,4 +1,4 @@
-async function loadCSVToUL(csvPath, ulId, formatter) {
+async function loadCSVToUL(csvPath, ulId, formatter, isMarquee = false) {
     let res;
     try {
         res = await fetch(csvPath);
@@ -9,22 +9,32 @@ async function loadCSVToUL(csvPath, ulId, formatter) {
     }
     const data = await res.text();
     const rows = data.trim().split("\n").slice(1); // skip header
-    const ul = document.getElementById(ulId);
+    const el = document.getElementById(ulId);
+    if (!el) return;
 
-    rows.forEach(row => {
-        const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(x => x.replace(/^"|"$/g, ''));
-        const li = document.createElement("li");
-        li.innerHTML = formatter(cols);
-        ul.appendChild(li);
-    });
+    if (isMarquee) {
+        // For marquee: combine all rows into one scrolling line
+        const items = rows.map(row => {
+            const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(x => x.replace(/^"|"$/g, ''));
+            return formatter(cols);
+        });
+        el.innerHTML = items.join(" &nbsp;&nbsp;|&nbsp;&nbsp; ");
+    } else {
+        rows.forEach(row => {
+            const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(x => x.replace(/^"|"$/g, ''));
+            const li = document.createElement("li");
+            li.innerHTML = formatter(cols);
+            el.appendChild(li);
+        });
+    }
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
     const tasks = [];
 
     // Helper wrapper for collecting promises
-    const scheduleLoad = (csvPath, ulId, formatter) => {
-        tasks.push(loadCSVToUL(csvPath, ulId, formatter));
+    const scheduleLoad = (csvPath, ulId, formatter, isMarquee = false) => {
+        tasks.push(loadCSVToUL(csvPath, ulId, formatter, isMarquee));
     };
 
     // --- Publications ---
@@ -82,6 +92,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     scheduleLoad("data/bachelor-students.csv", "bachelor-students", ([name, project, year]) =>
         `<b>${name}</b>: <i>${project}</i> <span style="color:gray;">[${year}]</span>`
     );
+
+    // --- Notification Marquee ---
+    scheduleLoad("data/notifications.csv", "notification-marquee", ([msg]) => msg, true);
 
     // Wait for all CSVs to load and content to be appended
     await Promise.all(tasks);

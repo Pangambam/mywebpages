@@ -105,12 +105,9 @@
     <select id="examSelect" onchange="loadSelectedCSV()">
       <option value=""> -- Select Paper Code -- </option>
       <option value="assets/Statistics.csv">CSA-MDM-121 Stats - MSc</option>
-      <option value="assets/CSA-SEC-3201.csv">CSA-SEC-3201 Python - MCA</option>
-      <option value="assets/CSA-SEC-3202.csv">CSA-SEC-3202 Python (Lab) - MCA</option>
-      <option value="assets/CSA-DSM-514.csv">CSA-DSM-514: Computer Graphics - BCA</option>
     </select>
 
-    <input type="text" id="rollInput" placeholder="Enter Roll Number (e.g. Y24170501)" />
+    <input type="text" id="rollInput" placeholder="Enter first name (e.g. Amit)" />
     <button id="checkBtn" onclick="searchMarks()" disabled>Submit</button>
 
     <div id="result"></div>
@@ -168,12 +165,12 @@
         return;
       }
 
-      const student = marksData.find(s => s.Roll_No && s.Roll_No.trim().toUpperCase() === roll);
+      const student = marksData.find(s => s.Name && s.Name.trim().toUpperCase() === roll);
 
       if (student) {
         resultDiv.innerHTML = `
         <div>
-          <div><strong> Roll No:</strong> ${student.Roll_No}</div>
+          <div><strong> Roll No:</strong> ${student.Name}</div>
           <div><strong> Mark:</strong> ${student.Mark}</div>
         </div> `;
         }

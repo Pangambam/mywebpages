@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Marksheets: P.S. Singh</title>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      padding: 30px;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background-color: #999;
+      cursor: not-allowed;
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 20px;
+      font-size: 18px;
+      background-color: #fefefe;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      color: #222;
+    }
+
+    #disclaimer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #a00;
+      background-color: #fff8f8;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #f5c2c2;
+      text-align: left;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 20px;
+      }
+
+      input, button, select {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="https://pangambam.in/" style="display: inline-block; margin-bottom: 20px; text-decoration: none; color: #007BFF; font-weight: bold; font-size: 18px;">
+      <i class="fas fa-home"></i> Home
+    </a>
+
+    <h1>2025 - Even Semester</h1>
+
+    <h3>Mid Term - I Results</h3>
+
+    <select id="examSelect" onchange="loadSelectedCSV()">
+      <option value=""> -- Select Paper Code -- </option>
+      <option value="assets/ToC-MCA-MTE1.csv">CSA-DSM-2204 ToC - MCA</option>
+      <option value="assets/ToC-BCA-MTE1.csv">CSA-DSM-613 ToC - BCA</option>
+      <option value="assets/PythonTheory.csv">CSA-DSM-413 Python (Theory)</option>
+      <option value="assets/PythonLab.csv">CSA-DSM-414 Python (Lab)</option>
+      <option value="assets/CPPLab.csv">CSA-DSM-214 C++ (Lab)</option>
+      <option value="assets/Sec.csv">CSA-SEC-411 (Poster)</option>
+    </select>
+
+    <input type="text" id="rollInput" placeholder="Enter Roll Number (e.g. Y24170501)" />
+    <button id="checkBtn" onclick="searchMarks()" disabled>Submit</button>
+
+    <div id="result"></div>
+
+    <p id="disclaimer">
+      <strong>Disclaimer:</strong> The marks displayed here are for quick reference only.
+      In case of any discrepancy, students are advised to verify their marks from the original evaluated manuscript.
+    </p>
+
+    <hr style="margin-top: 30px;"/>
+    <p style="font-size: 14px; color: #666; margin-top: 10px;">
+      &copy; 2025 <a href="https://pangambam.in" target="_blank" style="color: #007BFF; text-decoration: none;">Pangambam</a>
+    </p>
+  </div>
+
+  <script>
+    let marksData = [];
+    const checkBtn = document.getElementById("checkBtn");
+
+    function loadSelectedCSV() {
+      const examSelect = document.getElementById("examSelect");
+      const selectedCSV = examSelect.value;
+      const resultDiv = document.getElementById("result");
+      marksData = [];
+      checkBtn.disabled = true;
+
+      if (!selectedCSV) {
+        resultDiv.innerHTML = '';
+        return;
+      }
+
+      resultDiv.innerHTML = 'Loading marks...';
+
+      Papa.parse(selectedCSV, {
+        download: true,
+        header: true,
+        complete: function(results) {
+          marksData = results.data;
+          resultDiv.innerHTML = 'Please enter roll number.';
+          checkBtn.disabled = false;
+        },
+        error: function(err) {
+          resultDiv.innerHTML = "Final mark not ready. Please wait for sometime.";
+          console.error(err);
+        }
+      });
+    }
+
+    function searchMarks() {
+      const roll = document.getElementById("rollInput").value.trim().toUpperCase();
+      const resultDiv = document.getElementById("result");
+
+      if (!roll) {
+        resultDiv.innerHTML = "Please enter roll number.";
+        return;
+      }
+
+      const student = marksData.find(s => s.Roll_No && s.Roll_No.trim().toUpperCase() === roll);
+
+      if (student) {
+        resultDiv.innerHTML = `
+        <div>
+          <div><strong> Roll No:</strong> ${student.Roll_No}</div>
+          <div><strong> Mark:</strong> ${student.Mark}</div>
+        </div> `;
+        }
+      else {
+        resultDiv.innerHTML = "Roll number not found.";
+      }
+    }
+  </script>
+</body>
+</html>

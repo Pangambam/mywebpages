@@ -1,108 +1,150 @@
-async function loadCSVToUL(csvPath, ulId, formatter, isMarquee = false) {
-    let res;
-    try {
-        res = await fetch(csvPath);
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-    } catch (error) {
-        console.error(`Failed to load CSV from ${csvPath}:`, error);
-        return;
+// CSV-driven content loader. Add/remove rows in the CSV files to update the website.
+function parseCSV(text) {
+  const rows = [];
+  let row = [], cell = '', quoted = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i], next = text[i + 1];
+    if (ch === '"' && quoted && next === '"') { cell += '"'; i++; continue; }
+    if (ch === '"') { quoted = !quoted; continue; }
+    if (ch === ',' && !quoted) { row.push(cell.trim()); cell = ''; continue; }
+    if ((ch === '\n' || ch === '\r') && !quoted) {
+      if (ch === '\r' && next === '\n') i++;
+      row.push(cell.trim()); cell = '';
+      if (row.some(v => v !== '')) rows.push(row);
+      row = [];
+      continue;
     }
-    const data = await res.text();
-    const rows = data.trim().split("\n").slice(1); // skip header
-    const el = document.getElementById(ulId);
-    if (!el) return;
-
-    if (isMarquee) {
-        // For marquee: combine all rows into one scrolling line
-        const items = rows.map(row => {
-            const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(x => x.replace(/^"|"$/g, ''));
-            return formatter(cols);
-        });
-        el.innerHTML = items.join(" &nbsp;&nbsp;|&nbsp;&nbsp; ");
-    } else {
-        rows.forEach(row => {
-            const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(x => x.replace(/^"|"$/g, ''));
-            const li = document.createElement("li");
-            li.innerHTML = formatter(cols);
-            el.appendChild(li);
-        });
-    }
+    cell += ch;
+  }
+  if (cell !== '' || row.length) row.push(cell.trim());
+  if (row.some(v => v !== '')) rows.push(row);
+  return rows;
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-    const tasks = [];
-
-    // Helper wrapper for collecting promises
-    const scheduleLoad = (csvPath, ulId, formatter, isMarquee = false) => {
-        tasks.push(loadCSVToUL(csvPath, ulId, formatter, isMarquee));
-    };
-
-    // --- Publications ---
-    scheduleLoad("data/Publications/journals.csv", "journal-publications", ([a1, a2, a3, title, journal, doi]) => {
-        const authors = [a1, a2, a3]
-            .filter(a => a.trim() !== "")
-            .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a)
-            .join(", ");
-        return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. doi: <a href="https://doi.org/${doi}" target="_blank"><i>${doi}</i></a>`;
+function addCollapsibleList(element, values) {
+  if (!element) return;
+  element.replaceChildren(...values.map(value => {
+    const li = document.createElement('li');
+    li.innerHTML = value;
+    return li;
+  }));
+  const oldButton = element.parentElement.querySelector(':scope > .show-more');
+  if (oldButton) oldButton.remove();
+  if (values.length > 5) {
+    element.classList.add('collapsed');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'show-more';
+    button.textContent = `Show all (${values.length})`;
+    button.addEventListener('click', () => {
+      const expanded = element.classList.toggle('expanded');
+      element.classList.toggle('collapsed', !expanded);
+      button.textContent = expanded ? 'Show less' : `Show all (${values.length})`;
     });
+    element.parentElement.appendChild(button);
+  }
+}
 
-    scheduleLoad("data/Publications/conferences.csv", "conference-proceedings", ([a1, a2, a3, title, journal, doi]) => {
-        const authors = [a1, a2, a3]
-            .filter(a => a.trim() !== "")
-            .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a)
-            .join(", ");
-        return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. doi: <a href="https://doi.org/${doi}" target="_blank"><i>${doi}</i></a>`;
-    });
-
-    scheduleLoad("data/Publications/books.csv", "book-chapters", ([a1, a2, a3, title, journal, doi]) => {
-        const authors = [a1, a2, a3]
-            .filter(a => a.trim() !== "")
-            .map(a => a.includes("Sendash") ? `<b>${a}</b>` : a)
-            .join(", ");
-        return `${authors}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ""}. doi: <a href="https://doi.org/${doi}" target="_blank"><i>${doi}</i></a>`;
-    });
-
-    scheduleLoad("data/Publications/otherpublications.csv", "other-publications", ([title, journal, link]) => {
-        return `<b><i>${title}</i></b>${journal ? `, ${journal}` : ""}. <a href="${link}" target="_blank">[Link]</a>`;
-    });
-
-    // --- Research, Teaching, Activities ---
-    scheduleLoad("data/ResearchInterest/researchinterests.csv", "research-interest", ([i]) => i);
-    scheduleLoad("data/ResearchInterest/activities.csv", "professional-activities", ([r, j, l]) =>
-        `${r} of <i><a href="${l}" target="_blank"><b>${j}</b></a></i>`
-    );
-    scheduleLoad("data/Teaching/theorycourse.csv", "theory-courses", ([i]) => i);
-    scheduleLoad("data/Teaching/labcourse.csv", "lab-courses", ([i]) => i);
-    scheduleLoad("data/Talks/talks.csv", "invited-talks", ([title, program, organizer, date]) =>
-        `<b>${title}</b>: <i>${program}</i> organized by <i>${organizer}</i>, ${date}`
-    );
-    scheduleLoad("data/Talks/confparticipation.csv", "conference-participation", ([role, event]) =>
-        `Served as <b>${role}</b> – <i>${event}</i>`
-    );
-
-    // --- Supervision Section ---
-    scheduleLoad("data/Supervision/phd-students.csv", "phd-students", ([name, topic, status]) =>
-        `<b>${name}</b>: <i>${topic}</i> <span style="color:gray;">(${status})</span>`
-    );
-
-    scheduleLoad("data/Supervision/master-students.csv", "master-students", ([name, topic, year]) =>
-        `<b>${name}</b>: <i>${topic}</i> <span style="color:gray;">[${year}]</span>`
-    );
-
-    scheduleLoad("data/Supervision/bachelor-students.csv", "bachelor-students", ([name, project, year]) =>
-        `<b>${name}</b>: <i>${project}</i> <span style="color:gray;">[${year}]</span>`
-    );
-
-    // --- Notification Marquee ---
-    scheduleLoad("data/Notifications/notifications.csv", "notification-marquee", ([msg]) => msg, true);
-
-    // Wait for all CSVs to load and content to be appended
-    await Promise.all(tasks);
-
-    // ✅ Refresh AOS and reveal the body
-    if (typeof AOS !== "undefined" && typeof AOS.refresh === "function") {
-        AOS.refresh();
+async function loadCSV(path, id, formatter, marquee = false, limit = null) {
+  const element = document.getElementById(id);
+  if (!element) return;
+  try {
+    const response = await fetch(path, { cache: 'no-store' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const rows = parseCSV(await response.text()).slice(1);
+    const values = rows.map(formatter).filter(Boolean);
+    const displayValues = limit ? values.slice(0, limit) : values;
+    if (marquee) {
+      element.innerHTML = displayValues.join(' &nbsp;&nbsp; · &nbsp;&nbsp; ');
+    } else {
+      addCollapsibleList(element, displayValues);
     }
+  } catch (error) {
+    console.error(`Could not load ${path}`, error);
+  }
+}
 
-    document.body.classList.add("loaded");
+// Load a complete CSV list without collapsing it. Used when the Publications
+// tab is explicitly selected on the homepage.
+async function loadCSVFull(path, id, formatter) {
+  const element = document.getElementById(id);
+  if (!element) return;
+  try {
+    const response = await fetch(path, { cache: 'no-store' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const rows = parseCSV(await response.text()).slice(1);
+    const values = rows.map(formatter).filter(Boolean);
+    element.replaceChildren(...values.map(value => {
+      const li = document.createElement('li');
+      li.innerHTML = value;
+      return li;
+    }));
+  } catch (error) {
+    console.error(`Could not load ${path}`, error);
+  }
+}
+
+const authorText = ([a1, a2, a3]) => [a1, a2, a3].filter(Boolean).map(a => a.includes('Sendash') ? `<b>${a}</b>` : a).join(', ');
+const publication = ([a1, a2, a3, title, journal, doi]) => `${authorText([a1,a2,a3])}. <b><i>"${title}"</i></b>${journal ? `, ${journal}` : ''}.${doi && doi !== 'Link' ? ` doi: <a href="https://doi.org/${doi}" target="_blank" rel="noopener"><i>${doi}</i></a>` : ''}`;
+
+function setupTabs() {
+  document.querySelectorAll('.tabs').forEach(tabGroup => {
+    const tabs = [...tabGroup.querySelectorAll('.tab[data-target]')];
+    if (!tabs.length) return;
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          const active = t === tab;
+          t.classList.toggle('active', active);
+          t.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        const container = tabGroup.parentElement;
+        container.querySelectorAll(':scope > .tab-panel').forEach(panel => {
+          const active = panel.id === tab.dataset.target;
+          panel.classList.toggle('active', active);
+          panel.hidden = !active;
+        });
+        const preview = document.getElementById('publication-preview');
+        const all = document.getElementById('publication-all');
+        if (preview && all) {
+          // Publications is a preview on initial page load. When the
+          // Publications tab is explicitly selected, replace the preview
+          // with the complete publication list — still on this homepage.
+          const showAll = tab.dataset.target === 'home-publications';
+          preview.hidden = !showAll;
+          all.hidden = !showAll;
+        }
+      });
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupTabs();
+
+  // Homepage preview: the first three rows of journals.csv are treated as the
+  // recent/top entries. Reorder the CSV to change which papers appear here.
+  loadCSV('data/Publications/journals.csv','research-preview',publication,false,3);
+  loadCSVFull('data/Publications/journals.csv','home-journal-publications',publication);
+  loadCSVFull('data/Publications/conferences.csv','home-conference-proceedings',publication);
+  loadCSVFull('data/Publications/books.csv','home-book-chapters',publication);
+  loadCSVFull('data/Publications/otherpublications.csv','home-other-publications',([title,journal,link]) => `<b><i>${title}</i></b>${journal ? `, ${journal}` : ''}. <a href="${link}" target="_blank" rel="noopener">[Link]</a>`);
+
+  const jobs = [
+    ['data/Publications/journals.csv','journal-publications',publication],
+    ['data/Publications/conferences.csv','conference-proceedings',publication],
+    ['data/Publications/books.csv','book-chapters',publication],
+    ['data/Publications/otherpublications.csv','other-publications',([title,journal,link]) => `<b><i>${title}</i></b>${journal ? `, ${journal}` : ''}. <a href="${link}" target="_blank" rel="noopener">[Link]</a>`],
+    ['data/ResearchInterest/researchinterests.csv','research-interest',([i]) => i],
+    ['data/ResearchInterest/activities.csv','professional-activities',([r,j,l]) => `${r} of <i><a href="${l}" target="_blank" rel="noopener"><b>${j}</b></a></i>`],
+    ['data/Teaching/theorycourse.csv','theory-courses',([i]) => i],
+    ['data/Teaching/labcourse.csv','lab-courses',([i]) => i],
+    ['data/Talks/talks.csv','invited-talks',([title,program,organizer,date]) => `<b>${title}</b>: <i>${program}</i>${organizer ? ` organized by <i>${organizer}</i>` : ''}, ${date}`],
+    ['data/Talks/confparticipation.csv','conference-participation',([role,event]) => `Served as <b>${role}</b> – <i>${event}</i>`],
+    ['data/Supervision/phd-students.csv','phd-students',([name,topic,status]) => `<b>${name}</b>: <i>${topic}</i> <span class="status">(${status})</span>`],
+    ['data/Supervision/master-students.csv','master-students',([name,topic,year]) => `<b>${name}</b>: <i>${topic}</i> <span class="status">[${year}]</span>`],
+    ['data/Supervision/bachelor-students.csv','bachelor-students',([name,project,year]) => `<b>${name}</b>: <i>${project}</i> <span class="status">[${year}]</span>`],
+    ['data/Notifications/notifications.csv','notification-marquee',([msg]) => msg, true]
+  ];
+  Promise.all(jobs.map(([path,id,formatter,marquee]) => loadCSV(path,id,formatter,marquee)));
 });

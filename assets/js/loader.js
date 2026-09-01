@@ -64,16 +64,17 @@ async function loadCSV(path, id, formatter, marquee = false, limit = null) {
   }
 }
 
-// Load a complete CSV list without collapsing it. Used when the Publications
-// tab is explicitly selected on the homepage.
-async function loadCSVFull(path, id, formatter) {
+// Load a CSV list without collapsing it. `skip` is useful when a preview
+// already shows the first few entries and the expanded view should show only
+// the remaining entries.
+async function loadCSVFull(path, id, formatter, skip = 0) {
   const element = document.getElementById(id);
   if (!element) return;
   try {
     const response = await fetch(path, { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const rows = parseCSV(await response.text()).slice(1);
-    const values = rows.map(formatter).filter(Boolean);
+    const values = rows.map(formatter).filter(Boolean).slice(skip);
     element.replaceChildren(...values.map(value => {
       const li = document.createElement('li');
       li.innerHTML = value;
@@ -104,16 +105,6 @@ function setupTabs() {
           panel.classList.toggle('active', active);
           panel.hidden = !active;
         });
-        const preview = document.getElementById('publication-preview');
-        const all = document.getElementById('publication-all');
-        if (preview && all) {
-          // Publications is a preview on initial page load. When the
-          // Publications tab is explicitly selected, replace the preview
-          // with the complete publication list — still on this homepage.
-          const showAll = tab.dataset.target === 'home-publications';
-          preview.hidden = !showAll;
-          all.hidden = !showAll;
-        }
       });
     });
   });
@@ -122,13 +113,24 @@ function setupTabs() {
 document.addEventListener('DOMContentLoaded', () => {
   setupTabs();
 
-  // Homepage preview: the first three rows of journals.csv are treated as the
-  // recent/top entries. Reorder the CSV to change which papers appear here.
+  // Homepage preview: show only the first three journal publications by default.
+  // Reorder journals.csv to change which papers appear in the preview.
   loadCSV('data/Publications/journals.csv','research-preview',publication,false,3);
-  loadCSVFull('data/Publications/journals.csv','home-journal-publications',publication);
+  loadCSVFull('data/Publications/journals.csv','home-journal-publications',publication,3);
   loadCSVFull('data/Publications/conferences.csv','home-conference-proceedings',publication);
   loadCSVFull('data/Publications/books.csv','home-book-chapters',publication);
   loadCSVFull('data/Publications/otherpublications.csv','home-other-publications',([title,journal,link]) => `<b><i>${title}</i></b>${journal ? `, ${journal}` : ''}. <a href="${link}" target="_blank" rel="noopener">[Link]</a>`);
+
+  const showAllButton = document.getElementById('show-all-publications');
+  const publicationAll = document.getElementById('publication-all');
+  if (showAllButton && publicationAll) {
+    showAllButton.addEventListener('click', () => {
+      const expanded = publicationAll.hidden;
+      publicationAll.hidden = !expanded;
+      showAllButton.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      showAllButton.textContent = expanded ? 'Show Less Publications' : 'Show All Publications';
+    });
+  }
 
   const jobs = [
     ['data/Publications/journals.csv','journal-publications',publication],

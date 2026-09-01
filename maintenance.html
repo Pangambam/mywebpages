@@ -1,58 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Under Maintenance</title>
-    <style>
-        body {
-            font-family: 'Helvetica Neue', sans-serif;
-            background: linear-gradient(to right, #ff6f61, #de1e7e);
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            text-align: center;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 50px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-        h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        p {
-            font-size: 1.5em;
-            margin: 0;
-        }
-        .rainbow-text {
-            background: -webkit-linear-gradient(left, #ff7e5f, #feb47b, #86a8e7, #d4fc79, #96e6a1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: rainbow-animation 2s infinite;
-        }
-        @keyframes rainbow-animation {
-            0%, 100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>~/Pangambam.in — Maintenance</title>
+<style>
+:root{
+  --bg:#0b1120;
+  --panel:#111827;
+  --border:#263449;
+  --text:#d1d5db;
+  --muted:#718096;
+  --green:#22c55e;
+  --blue:#38bdf8;
+  --yellow:#facc15;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Consolas,"Liberation Mono","Courier New",monospace;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.16;
+  background:linear-gradient(rgba(56,189,248,.12) 1px,transparent 1px);
+  background-size:100% 4px;
+}
+.container{
+  width:min(760px,100%);
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:6px;
+  box-shadow:0 20px 60px rgba(0,0,0,.45);
+  overflow:hidden;
+}
+.terminal-bar{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:12px 16px;
+  border-bottom:1px solid var(--border);
+  color:var(--muted);
+  font-size:12px;
+}
+.dot{width:9px;height:9px;border-radius:50%;border:1px solid var(--border)}
+.path{margin-left:8px;color:var(--blue)}
+.content{padding:42px}
+.prompt{color:var(--green);font-size:13px;margin-bottom:18px}
+.prompt:before{content:"$ "}
+h1{
+  margin:0 0 18px;
+  color:#f8fafc;
+  font-size:clamp(28px,5vw,46px);
+  line-height:1.15;
+  letter-spacing:-1px;
+}
+h1:after{content:"_";color:var(--green);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.message{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.8;
+  margin-bottom:28px;
+}
+.status{
+  border:1px solid var(--border);
+  padding:18px;
+  margin-bottom:28px;
+  font-size:12px;
+  line-height:1.9;
+}
+.status span{color:var(--green)}
+.status .warn{color:var(--yellow)}
+a{
+  display:inline-block;
+  color:var(--blue);
+  text-decoration:none;
+  border:1px solid var(--blue);
+  padding:9px 13px;
+  font-size:12px;
+}
+a:hover{background:rgba(56,189,248,.08)}
+.footer{
+  padding-top:22px;
+  margin-top:8px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:10px;
+}
+@media(max-width:600px){
+  .content{padding:28px 22px}
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="rainbow-text">Under Maintenance</h1>
-        <p>This website is currently performing maintenance.</p>
-        <p>Please visit us again after <strong>August 20, 2024</strong>.</p>
-        <p>For any emergency, kindly reach me at +91-8014391934</p>
+<div class="container">
+  <div class="terminal-bar">
+    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <span class="path">~/Pangambam.in</span>
+  </div>
+
+  <div class="content">
+    <div class="prompt">system.status</div>
+    <h1>Under Maintenance</h1>
+
+    <div class="message">
+      This website is currently being updated.<br>
+      Please check back soon.
     </div>
+
+    <div class="status">
+      status: <span>MAINTENANCE</span><br>
+      site: <span>pangambam.in</span><br>
+      service: <span>updating</span><br>
+      expected_return: <span class="warn">soon</span>
+    </div>
+
+    <div class="footer">
+      // Thank you for your patience.<br>
+      // Pangambam.in
+    </div>
+  </div>
+</div>
 </body>
 </html>

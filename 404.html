@@ -1,54 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>404 - Page Not Found</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>~/Pangambam.in — 404</title>
+
   <style>
-    body {
-      background-color: #f8f9fa;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      text-align: center;
-      padding: 50px;
+    :root{
+      --bg:#0b1120;
+      --panel:#111827;
+      --border:#263449;
+      --text:#d1d5db;
+      --muted:#718096;
+      --green:#22c55e;
+      --blue:#38bdf8;
+      --red:#f87171;
     }
-    .error-container {
-      max-width: 600px;
-      margin: 0 auto;
+
+    *{
+      box-sizing:border-box;
     }
-    h1 {
-      font-size: 100px;
-      margin: 0;
-      color: #dc3545;
+
+    body{
+      margin:0;
+      min-height:100vh;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Consolas,"Liberation Mono","Courier New",monospace;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
     }
-    h2 {
-      font-size: 36px;
-      margin: 10px 0;
+
+    body:before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.16;
+      background:linear-gradient(
+        rgba(56,189,248,.12) 1px,
+        transparent 1px
+      );
+      background-size:100% 4px;
     }
-    p {
-      font-size: 18px;
-      color: #666;
+
+    .container{
+      width:min(760px,100%);
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:6px;
+      box-shadow:0 20px 60px rgba(0,0,0,.45);
+      overflow:hidden;
     }
-    a {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
+
+    .terminal-bar{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      padding:12px 16px;
+      border-bottom:1px solid var(--border);
+      color:var(--muted);
+      font-size:12px;
     }
-    a:hover {
-      background-color: #0056b3;
+
+    .dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      border:1px solid var(--border);
+    }
+
+    .path{
+      margin-left:8px;
+      color:var(--blue);
+    }
+
+    .content{
+      padding:42px;
+    }
+
+    .prompt{
+      color:var(--green);
+      font-size:13px;
+      margin-bottom:18px;
+    }
+
+    .prompt:before{
+      content:"$ ";
+    }
+
+    h1{
+      margin:0;
+      color:var(--red);
+      font-size:clamp(70px,12vw,120px);
+      line-height:1;
+      letter-spacing:-5px;
+    }
+
+    h2{
+      margin:18px 0;
+      color:#f8fafc;
+      font-size:24px;
+    }
+
+    h2:before{
+      content:"// ";
+      color:var(--blue);
+    }
+
+    p{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.8;
+      margin-bottom:28px;
+    }
+
+    .status{
+      border:1px solid var(--border);
+      padding:18px;
+      margin-bottom:28px;
+      font-size:12px;
+      line-height:1.9;
+    }
+
+    .status span{
+      color:var(--red);
+    }
+
+    a{
+      display:inline-block;
+      color:var(--blue);
+      text-decoration:none;
+      border:1px solid var(--blue);
+      padding:9px 13px;
+      font-size:12px;
+    }
+
+    a:hover{
+      background:rgba(56,189,248,.08);
+    }
+
+    .footer{
+      padding-top:22px;
+      margin-top:28px;
+      border-top:1px solid var(--border);
+      color:var(--muted);
+      font-size:10px;
+    }
+
+    @media(max-width:600px){
+      .content{
+        padding:28px 22px;
+      }
+
+      h1{
+        font-size:80px;
+      }
     }
   </style>
 </head>
+
 <body>
-  <div class="error-container">
-    <h1>404</h1>
-    <h2>Oops! Page not found</h2>
-    <p>Sorry, but the page you were looking for does not exist or has been moved.</p>
-    <a href="index.html">Go to Homepage</a>
+
+  <div class="container">
+
+    <div class="terminal-bar">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="path">~/Pangambam.in</span>
+    </div>
+
+    <div class="content">
+
+      <div class="prompt">request.status</div>
+
+      <h1>404</h1>
+
+      <h2>Page Not Found</h2>
+
+      <p>
+        The requested resource could not be found.<br>
+        It may have been moved, deleted, or never existed.
+      </p>
+
+      <div class="status">
+        status: <span>404 NOT_FOUND</span><br>
+        resource: <span>unavailable</span><br>
+        server: <span>online</span>
+      </div>
+
+      <a href="index.html">./return_to_home</a>
+
+      <div class="footer">
+        // Pangambam.in<br>
+        // system: page lookup failed
+      </div>
+
+    </div>
   </div>
+
 </body>
 </html>

@@ -115,8 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Homepage preview: show only the first three journal publications by default.
   // Reorder journals.csv to change which papers appear in the preview.
-  loadCSV('data/Publications/journals.csv','research-preview',publication,false,3);
-  loadCSVFull('data/Publications/journals.csv','home-journal-publications',publication,3);
+  loadCSV('data/Publications/journals.csv','research-preview',publication,false,5);
+  loadCSVFull('data/Publications/journals.csv','home-journal-publications',publication,5);
   loadCSVFull('data/Publications/conferences.csv','home-conference-proceedings',publication);
   loadCSVFull('data/Publications/books.csv','home-book-chapters',publication);
   loadCSVFull('data/Publications/otherpublications.csv','home-other-publications',([title,journal,link]) => `<b><i>${title}</i></b>${journal ? `, ${journal}` : ''}. <a href="${link}" target="_blank" rel="noopener">[Link]</a>`);

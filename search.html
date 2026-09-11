@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ideathon 2026 | Team Verification</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #070b0d;
+            color: #d7e2e7;
+            font-family:
+                "JetBrains Mono",
+                "Fira Code",
+                "Cascadia Code",
+                Consolas,
+                monospace;
+        }
+
+        /* Main container */
+
+        .container {
+            width: 92%;
+            max-width: 900px;
+            margin: 60px auto;
+        }
+
+        /* Terminal */
+
+        .terminal {
+            background: #0b1012;
+            border: 1px solid #263238;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Terminal top bar */
+
+        .terminal-header {
+            height: 42px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            background: #0e1417;
+            border-bottom: 1px solid #263238;
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            margin-right: 7px;
+            background: #39464b;
+        }
+
+        .terminal-title {
+            margin-left: 10px;
+            color: #66757b;
+            font-size: 12px;
+        }
+
+        /* Content */
+
+        .content {
+            padding: 35px;
+        }
+
+        .command {
+            color: #65ff9a;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            margin: 0;
+            color: #f1f7f9;
+            font-size: 32px;
+            letter-spacing: -1px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 18px;
+            margin-left: 6px;
+            background: #65ff9a;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .subtitle {
+            margin-top: 10px;
+            margin-bottom: 32px;
+            color: #718087;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Search */
+
+        .label {
+            display: block;
+            color: #52d9ff;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #080d0f;
+            border: 1px solid #263238;
+            border-radius: 7px;
+            padding: 0 15px;
+            transition: 0.2s;
+        }
+
+        .search-box:focus-within {
+            border-color: #65ff9a;
+            box-shadow: 0 0 0 2px rgba(101, 255, 154, 0.08);
+        }
+
+        .search-symbol {
+            color: #65ff9a;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        #teamSearch {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #e8f1f3;
+            padding: 15px 0;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        #teamSearch::placeholder {
+            color: #46545a;
+        }
+
+        /* Suggestions */
+
+        .suggestions {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            z-index: 100;
+
+            background: #0c1214;
+            border: 1px solid #263238;
+            border-radius: 7px;
+
+            max-height: 280px;
+            overflow-y: auto;
+
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .suggestion {
+            padding: 13px 15px;
+            border-bottom: 1px solid #1b2529;
+
+            color: #d7e2e7;
+            font-size: 13px;
+
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .suggestion:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion:hover {
+            background: #131d20;
+            color: #65ff9a;
+        }
+
+        .suggestion::before {
+            content: "> ";
+            color: #65ff9a;
+        }
+
+        /* Status */
+
+        .status {
+            margin-top: 12px;
+            color: #65747a;
+            font-size: 11px;
+        }
+
+        /* Team details */
+
+        .team-card {
+            margin-top: 30px;
+
+            background: #0e1416;
+            border: 1px solid #263238;
+            border-radius: 8px;
+
+            overflow: hidden;
+        }
+
+        .team-header {
+            padding: 20px;
+
+            background: #11191c;
+            border-bottom: 1px solid #263238;
+        }
+
+        .team-label {
+            color: #65747a;
+            font-size: 10px;
+
+            text-transform: uppercase;
+            letter-spacing: 2px;
+
+            margin-bottom: 9px;
+        }
+
+        .team-name {
+            color: #65ff9a;
+            font-size: 21px;
+            word-break: break-word;
+        }
+
+        .team-name::before {
+            content: "./";
+            color: #59676c;
+        }
+
+        /* Details */
+
+        .details {
+            padding: 5px 20px 15px;
+        }
+
+        .detail {
+            display: grid;
+            grid-template-columns: 35% 65%;
+
+            padding: 14px 0;
+
+            border-bottom: 1px dashed #202b2f;
+
+            font-size: 12px;
+        }
+
+        .detail:last-child {
+            border-bottom: none;
+        }
+
+        .field {
+            color: #52d9ff;
+            padding-right: 15px;
+            word-break: break-word;
+        }
+
+        .field::before {
+            content: "$ ";
+            color: #4d5b60;
+        }
+
+        .value {
+            color: #cbd8dd;
+            word-break: break-word;
+            white-space: pre-wrap;
+        }
+
+        /* Footer */
+
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+
+            color: #465257;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        /* Scrollbar */
+
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #080d0f;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #263238;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3a4a50;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+                margin: 25px auto;
+            }
+
+            .content {
+                padding: 22px 17px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .detail {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+
+            .field {
+                padding-right: 0;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="terminal">
+
+        <!-- Terminal Header -->
+
+        <div class="terminal-header">
+
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+
+            <div class="terminal-title">
+                ideathon@2026: ~/team-verification
+            </div>
+
+        </div>
+
+
+        <!-- Main Content -->
+
+        <div class="content">
+
+            <div class="command">
+                $ ./verify_team --event IDEATHON_2026
+            </div>
+
+            <h1>
+                Team Verification
+                <span class="cursor"></span>
+            </h1>
+
+            <div class="subtitle">
+                Search your registered team and select it from the
+                matching results to view complete registration details.
+            </div>
+
+
+            <!-- Search -->
+
+            <label class="label" for="teamSearch">
+                TEAM_NAME
+            </label>
+
+            <div class="search-wrapper">
+
+                <div class="search-box">
+
+                    <span class="search-symbol">$</span>
+
+                    <input
+                        type="text"
+                        id="teamSearch"
+                        placeholder="start typing team name..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <!-- Suggestions -->
+
+                <div
+                    id="suggestions"
+                    class="suggestions"
+                ></div>
+
+            </div>
+
+
+            <!-- Status -->
+
+            <div
+                id="status"
+                class="status"
+            >
+                // loading team database...
+            </div>
+
+
+            <!-- Team Details -->
+
+            <div id="teamDetails"></div>
+
+
+            <div class="footer">
+                IDEATHON 2026 // REGISTRATION DATABASE
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /*
+        ==========================================
+        IDEATHON 2026 TEAM SEARCH
+        ==========================================
+    */
+
+    let teams = [];
+
+
+    const searchInput =
+        document.getElementById("teamSearch");
+
+    const suggestionsBox =
+        document.getElementById("suggestions");
+
+    const teamDetails =
+        document.getElementById("teamDetails");
+
+    const status =
+        document.getElementById("status");
+
+
+    /*
+        ==========================================
+        LOAD JSON
+        ==========================================
+    */
+
+    fetch("IDEATHON_2026_teams.json")
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load JSON file"
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(data => {
+
+            teams = data;
+
+            status.textContent =
+                "// database loaded: "
+                + teams.length
+                + " teams";
+
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+            status.textContent =
+                "// ERROR: unable to load team database";
+
+            status.style.color =
+                "#ff6b7a";
+
+        });
+
+
+    /*
+        ==========================================
+        SEARCH WHILE TYPING
+        ==========================================
+    */
+
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            const searchText =
+                this.value
+                    .trim()
+                    .toLowerCase();
+
+
+            suggestionsBox.innerHTML = "";
+
+            teamDetails.innerHTML = "";
+
+
+            /*
+                Empty search
+            */
+
+            if (searchText === "") {
+
+                status.textContent =
+                    "// waiting for input...";
+
+                return;
+
+            }
+
+
+            /*
+                Find matching teams
+            */
+
+            const matches =
+                teams.filter(team => {
+
+                    const teamName =
+                        String(
+                            team["Team Name"] || ""
+                        )
+                        .toLowerCase();
+
+                    return teamName.includes(
+                        searchText
+                    );
+
+                });
+
+
+            /*
+                No match
+            */
+
+            if (matches.length === 0) {
+
+                status.textContent =
+                    "// no matching team found";
+
+                return;
+
+            }
+
+
+            /*
+                Display number of matches
+            */
+
+            status.textContent =
+                "// "
+                + matches.length
+                + " matching team"
+                + (matches.length === 1
+                    ? ""
+                    : "s")
+                + " found";
+
+
+            /*
+                Create suggestions
+            */
+
+            matches.forEach(team => {
+
+                const suggestion =
+                    document.createElement("div");
+
+
+                suggestion.className =
+                    "suggestion";
+
+
+                suggestion.textContent =
+                    team["Team Name"] || "";
+
+
+                /*
+                    Select team
+                */
+
+                suggestion.addEventListener(
+                    "click",
+                    function () {
+
+                        searchInput.value =
+                            team["Team Name"] || "";
+
+                        suggestionsBox.innerHTML =
+                            "";
+
+                        displayTeam(team);
+
+                    }
+                );
+
+
+                suggestionsBox.appendChild(
+                    suggestion
+                );
+
+            });
+
+        }
+    );
+
+
+    /*
+        ==========================================
+        DISPLAY TEAM
+        ==========================================
+    */
+
+    function displayTeam(team) {
+
+        teamDetails.innerHTML = "";
+
+
+        status.textContent =
+            "// team selected successfully";
+
+
+        /*
+            Main card
+        */
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "team-card";
+
+
+        /*
+            Header
+        */
+
+        const header =
+            document.createElement("div");
+
+        header.className =
+            "team-header";
+
+
+        const label =
+            document.createElement("div");
+
+        label.className =
+            "team-label";
+
+        label.textContent =
+            "selected_team";
+
+
+        const name =
+            document.createElement("div");
+
+        name.className =
+            "team-name";
+
+        name.textContent =
+            team["Team Name"] || "";
+
+
+        header.appendChild(label);
+
+        header.appendChild(name);
+
+
+        card.appendChild(header);
+
+
+        /*
+            Details container
+        */
+
+        const details =
+            document.createElement("div");
+
+        details.className =
+            "details";
+
+
+        /*
+            Loop through every JSON field
+        */
+
+        Object.entries(team).forEach(
+            ([key, value]) => {
+
+
+                /*
+                    Team Name is already displayed
+                    in the header
+                */
+
+                if (key === "Team Name") {
+
+                    return;
+
+                }
+
+
+                const row =
+                    document.createElement("div");
+
+                row.className =
+                    "detail";
+
+
+                /*
+                    Field name
+                */
+
+                const field =
+                    document.createElement("div");
+
+                field.className =
+                    "field";
+
+                field.textContent =
+                    key.trim();
+
+
+                /*
+                    Field value
+                */
+
+                const valueElement =
+                    document.createElement("div");
+
+                valueElement.className =
+                    "value";
+
+
+                /*
+                    Blank cells remain blank
+                */
+
+                if (
+                    value === null ||
+                    value === undefined
+                ) {
+
+                    valueElement.textContent = "";
+
+                }
+
+                else {
+
+                    valueElement.textContent =
+                        String(value);
+
+                }
+
+
+                row.appendChild(field);
+
+                row.appendChild(valueElement);
+
+                details.appendChild(row);
+
+            }
+        );
+
+
+        card.appendChild(details);
+
+        teamDetails.appendChild(card);
+
+    }
+
+
+    /*
+        ==========================================
+        CLOSE SUGGESTIONS WHEN CLICKING OUTSIDE
+        ==========================================
+    */
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                !event.target.closest(
+                    ".search-wrapper"
+                )
+            ) {
+
+                suggestionsBox.innerHTML =
+                    "";
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

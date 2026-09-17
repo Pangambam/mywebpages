@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IDEATHON 2026 | Score Lookup</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0b0f14;
+            color: #d7e0ea;
+            font-family: "Courier New", Courier, monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .terminal {
+            width: 100%;
+            max-width: 720px;
+            background: #10161d;
+            border: 1px solid #263442;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+        }
+
+        .terminal-bar {
+            height: 42px;
+            background: #151d26;
+            border-bottom: 1px solid #263442;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+
+        .terminal-title {
+            margin-left: 10px;
+            color: #78899a;
+            font-size: 13px;
+        }
+
+        .content {
+            padding: 42px;
+        }
+
+        .prompt {
+            color: #6ee7b7;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .prompt::before {
+            content: "$ ";
+            color: #58a6ff;
+        }
+
+        h1 {
+            font-size: clamp(30px, 6vw, 48px);
+            color: #f1f5f9;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #7f91a3;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 34px;
+        }
+
+        .code-comment {
+            color: #5f7183;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            color: #aab8c5;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        label::before {
+            content: "// ";
+            color: #536678;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #2b3a49;
+            border-radius: 5px;
+            background: #0b1117;
+            color: #e6edf3;
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input::placeholder {
+            color: #4f6172;
+        }
+
+        input:focus {
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.10);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 6px;
+            padding: 14px 18px;
+            border: 1px solid #2ea043;
+            border-radius: 5px;
+            background: #238636;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            background: #2ea043;
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .result {
+            margin-top: 28px;
+            min-height: 20px;
+        }
+
+        .success {
+            border: 1px solid #1f6f46;
+            background: #0d1d17;
+            border-radius: 6px;
+            padding: 22px;
+        }
+
+        .success-label {
+            color: #6ee7b7;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .team-name {
+            color: #f1f5f9;
+            font-size: 20px;
+            margin-bottom: 18px;
+            word-break: break-word;
+        }
+
+        .score {
+            font-size: 46px;
+            font-weight: bold;
+            color: #58a6ff;
+        }
+
+        .score-label {
+            color: #718396;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .error {
+            border: 1px solid #7f3030;
+            background: #211114;
+            color: #ff8b8b;
+            border-radius: 6px;
+            padding: 16px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .loading {
+            color: #8b9bab;
+            font-size: 13px;
+            padding: 12px 0;
+        }
+
+        .loading::before {
+            content: "> ";
+            color: #58a6ff;
+        }
+
+        .footer {
+            margin-top: 34px;
+            padding-top: 18px;
+            border-top: 1px solid #202c38;
+            color: #536678;
+            font-size: 11px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .footer span {
+            color: #6ee7b7;
+        }
+
+        @media (max-width: 560px) {
+            body {
+                padding: 12px;
+                align-items: flex-start;
+            }
+
+            .terminal {
+                margin-top: 20px;
+            }
+
+            .content {
+                padding: 28px 20px;
+            }
+
+            .terminal-title {
+                font-size: 11px;
+            }
+
+            .score {
+                font-size: 38px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="terminal">
+
+    <div class="terminal-bar">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+        <div class="terminal-title">ideathon@dhsgsu:~$ score_lookup</div>
+    </div>
+
+    <div class="content">
+
+        <div class="prompt">./ideathon-2026 --score</div>
+
+        <h1>IDEATHON 2026</h1>
+
+        <p class="subtitle">
+            Internal Hackathon for Smart India Hackathon (SIH) 2026 Nominations<br>
+            <span class="code-comment">// Secure team score verification</span>
+        </p>
+
+        <form id="scoreForm">
+
+            <div class="form-group">
+                <label for="team">Team Name</label>
+                <input
+                    type="text"
+                    id="team"
+                    name="team"
+                    placeholder="Enter your team name"
+                    autocomplete="organization"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="email">Team Leader Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter registered team leader email"
+                    autocomplete="email"
+                    required
+                >
+            </div>
+
+            <button type="submit" id="submitBtn">
+                [ CHECK SCORE ]
+            </button>
+
+        </form>
+
+        <div id="result" class="result"></div>
+
+        <div class="footer">
+            <span>● SYSTEM ONLINE</span><br>
+            Placement &amp; Startup Cell · DHSGSU<br>
+            IDEATHON 2026
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.getElementById("scoreForm").addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        const team = document.getElementById("team").value.trim();
+        const email = document.getElementById("email").value.trim();
+
+        const result = document.getElementById("result");
+        const button = document.getElementById("submitBtn");
+
+        if (!team || !email) {
+            result.innerHTML = `
+                <div class="error">
+                    ERROR: Team Name and Team Leader Email are required.
+                </div>
+            `;
+            return;
+        }
+
+        button.disabled = true;
+        button.textContent = "[ CHECKING... ]";
+
+        result.innerHTML = `
+            <div class="loading">
+                Querying secure marks database...
+            </div>
+        `;
+
+        try {
+
+            const response = await fetch("/ideathon-marks", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    team: team,
+                    email: email
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+
+                result.innerHTML = `
+                    <div class="success">
+                        <div class="success-label">✓ MATCH FOUND</div>
+
+                        <div class="team-name">
+                            ${escapeHTML(data.team)}
+                        </div>
+
+                        <div class="score">
+                            ${escapeHTML(String(data.score))}
+                        </div>
+
+                        <div class="score-label">
+                            FINAL SCORE / 100
+                        </div>
+                    </div>
+                `;
+
+            } else {
+
+                result.innerHTML = `
+                    <div class="error">
+                        ERROR: ${escapeHTML(data.message)}
+                    </div>
+                `;
+            }
+
+        } catch (error) {
+
+            result.innerHTML = `
+                <div class="error">
+                    ERROR: Unable to connect to the score server.
+                    Please try again later.
+                </div>
+            `;
+
+        } finally {
+
+            button.disabled = false;
+            button.textContent = "[ CHECK SCORE ]";
+
+        }
+
+    });
+
+
+    // Prevent returned team name/message from being interpreted as HTML.
+    function escapeHTML(value) {
+        return value
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+</script>
+
+</body>
+</html>

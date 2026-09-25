@@ -1,0 +1,104 @@
+{
+    "subject": "Deep Learning",
+    "code": "CSA-MDM-331",
+    "class": "MSc-III",
+    "type": "Theory",
+    "students": [
+        {
+            "roll": "Y25246001",
+            "marks": "Absent"
+        },
+        {
+            "roll": "Y25246002",
+            "marks": 9
+        },
+        {
+            "roll": "Y25246003",
+            "marks": 5
+        },
+        {
+            "roll": "Y25246004",
+            "marks": 13
+        },
+        {
+            "roll": "Y25246005",
+            "marks": 3
+        },
+        {
+            "roll": "Y25246006",
+            "marks": 9
+        },
+        {
+            "roll": "Y25246007",
+            "marks": 6
+        },
+        {
+            "roll": "Y25246008",
+            "marks": 12
+        },
+        {
+            "roll": "Y25246009",
+            "marks": 8
+        },
+        {
+            "roll": "Y25246010",
+            "marks": 9
+        },
+        {
+            "roll": "Y25246011",
+            "marks": 12
+        },
+        {
+            "roll": "Y25246012",
+            "marks": "Absent"
+        },
+        {
+            "roll": "Y25246013",
+            "marks": 4
+        },
+        {
+            "roll": "Y25246014",
+            "marks": 13
+        },
+        {
+            "roll": "Y25246015",
+            "marks": 11
+        },
+        {
+            "roll": "Y25246016",
+            "marks": 10
+        },
+        {
+            "roll": "Y25246017",
+            "marks": 5
+        },
+        {
+            "roll": "Y25246018",
+            "marks": 8
+        },
+        {
+            "roll": "Y25246019",
+            "marks": 3
+        },
+        {
+            "roll": "Y25246020",
+            "marks": 9
+        },
+        {
+            "roll": "Y25246021",
+            "marks": 10
+        },
+        {
+            "roll": "Y25246023",
+            "marks": 12
+        },
+        {
+            "roll": "Y25246024",
+            "marks": 9
+        },
+        {
+            "roll": "Y25246025",
+            "marks": 4
+        }
+    ]
+}

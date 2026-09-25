@@ -318,7 +318,7 @@
 
 
         /* =========================================================
-           RESULT
+           RESULT TABLE
         ========================================================= */
 
         #result {
@@ -327,19 +327,21 @@
 
             margin-top: 25px;
 
-            padding: 20px;
+            padding: 0;
 
             background: #f8fafb;
 
             border: 1px solid #dce5e9;
 
             border-radius: 9px;
+
+            overflow: hidden;
         }
 
 
         .result-title {
 
-            margin-bottom: 15px;
+            padding: 16px 20px;
 
             color: #16803c;
 
@@ -350,58 +352,86 @@
             font-size: 13px;
 
             font-weight: bold;
+
+            border-bottom: 1px solid #dce5e9;
         }
 
 
-        .result-line {
+        .result-table-wrapper {
 
-            display: flex;
+            width: 100%;
 
-            justify-content: space-between;
+            overflow-x: auto;
+        }
 
-            align-items: center;
 
-            gap: 20px;
+        .result-table {
 
-            padding: 11px 0;
+            width: 100%;
 
-            border-bottom: 1px dashed #d5dde1;
+            border-collapse: collapse;
+
+            min-width: 600px;
+        }
+
+
+        .result-table th {
+
+            padding: 13px 15px;
+
+            background: #eef3f5;
+
+            color: #607d8b;
+
+            font-family:
+                "Courier New",
+                monospace;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            text-align: left;
+
+            border-bottom: 1px solid #dce5e9;
+
+            white-space: nowrap;
+        }
+
+
+        .result-table td {
+
+            padding: 15px;
+
+            color: #263238;
 
             font-family:
                 "Courier New",
                 monospace;
 
             font-size: 14px;
-        }
-
-
-        .result-line:last-child {
-
-            border-bottom: none;
-        }
-
-
-        .result-label {
-
-            color: #78909c;
-        }
-
-
-        .result-value {
-
-            color: #263238;
 
             font-weight: bold;
 
-            text-align: right;
+            border-right: 1px solid #e1e7eb;
+
+            white-space: nowrap;
         }
 
 
-        .marks {
+        .result-table td:last-child {
+
+            border-right: none;
+        }
+
+
+        .result-table .marks {
 
             color: #16803c;
 
-            font-size: 25px;
+            font-size: 22px;
+
+            text-align: center;
         }
 
 
@@ -513,19 +543,9 @@
             }
 
 
-            .result-line {
+            .result-table {
 
-                flex-direction: column;
-
-                align-items: flex-start;
-
-                gap: 4px;
-            }
-
-
-            .result-value {
-
-                text-align: left;
+                min-width: 600px;
             }
 
         }
@@ -1147,63 +1167,54 @@ async function searchMarks() {
                     &gt; RESULT FOUND
                 </div>
 
+                <div class="result-table-wrapper">
 
-                <div class="result-line">
+                    <table class="result-table">
 
-                    <span class="result-label">
-                        SUBJECT
-                    </span>
+                        <thead>
 
-                    <span class="result-value">
-                        ${escapeHTML(
-                            String(subjectName)
-                        )}
-                    </span>
+                            <tr>
+                                <th>SUBJECT</th>
+                                <th>CODE</th>
+                                <th>ROLL NUMBER</th>
+                                <th>MARKS</th>
+                            </tr>
 
-                </div>
+                        </thead>
 
+                        <tbody>
 
-                <div class="result-line">
+                            <tr>
 
-                    <span class="result-label">
-                        CODE
-                    </span>
+                                <td>
+                                    ${escapeHTML(
+                                        String(subjectName)
+                                    )}
+                                </td>
 
-                    <span class="result-value">
-                        ${escapeHTML(
-                            String(code)
-                        )}
-                    </span>
+                                <td>
+                                    ${escapeHTML(
+                                        String(code)
+                                    )}
+                                </td>
 
-                </div>
+                                <td>
+                                    ${escapeHTML(
+                                        String(student.roll)
+                                    )}
+                                </td>
 
+                                <td class="marks">
+                                    ${escapeHTML(
+                                        String(marks)
+                                    )}
+                                </td>
 
-                <div class="result-line">
+                            </tr>
 
-                    <span class="result-label">
-                        ROLL NUMBER
-                    </span>
+                        </tbody>
 
-                    <span class="result-value">
-                        ${escapeHTML(
-                            String(student.roll)
-                        )}
-                    </span>
-
-                </div>
-
-
-                <div class="result-line">
-
-                    <span class="result-label">
-                        MARKS
-                    </span>
-
-                    <span class="result-value marks">
-                        ${escapeHTML(
-                            String(marks)
-                        )}
-                    </span>
+                    </table>
 
                 </div>
 

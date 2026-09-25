@@ -1,188 +1,1060 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Student Marksheets: P.S. Singh</title>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f4f4;
-      padding: 30px;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-    }
+    <title>Student Marksheets | Pangambam</title>
 
-    .container {
-      width: 100%;
-      max-width: 500px;
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
+    <style>
 
-    h1 {
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
+        * {
+            box-sizing: border-box;
+        }
 
-    select, input {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
+        body {
+            margin: 0;
+            min-height: 100vh;
 
-    button {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+            background:
+                radial-gradient(circle at top, #102820 0%, #050908 45%, #020303 100%);
 
-    button:disabled {
-      background-color: #999;
-      cursor: not-allowed;
-    }
+            color: #d7ffe5;
 
-    #result {
-      margin-top: 20px;
-      padding: 20px;
-      font-size: 18px;
-      background-color: #fefefe;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      color: #222;
-    }
+            font-family:
+                "Courier New",
+                Courier,
+                monospace;
 
-    #disclaimer {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #a00;
-      background-color: #fff8f8;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #f5c2c2;
-      text-align: left;
-    }
+            padding: 30px 15px;
+        }
 
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 20px;
-      }
+        .terminal {
+            width: 100%;
+            max-width: 700px;
 
-      input, button, select {
-        font-size: 15px;
-      }
-    }
-  </style>
+            margin: auto;
+
+            background: rgba(5, 12, 9, 0.96);
+
+            border: 1px solid #1f6b42;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 0 40px rgba(0, 255, 120, 0.08),
+                inset 0 0 30px rgba(0, 255, 120, 0.02);
+
+            overflow: hidden;
+        }
+
+        /* Terminal Header */
+
+        .terminal-header {
+            background: #101815;
+
+            padding: 12px 16px;
+
+            border-bottom: 1px solid #1f6b42;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+
+            border-radius: 50%;
+
+            background: #345c45;
+        }
+
+        .terminal-title {
+            margin-left: 10px;
+
+            color: #7affae;
+
+            font-size: 13px;
+        }
+
+        /* Main */
+
+        .content {
+            padding: 30px;
+        }
+
+        .prompt {
+            color: #58ff91;
+
+            font-size: 14px;
+
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            margin: 0 0 8px 0;
+
+            font-size: 27px;
+
+            color: #e1ffe9;
+
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #719b81;
+
+            font-size: 13px;
+
+            margin-bottom: 30px;
+        }
+
+        /* Subject */
+
+        label {
+            display: block;
+
+            color: #7affae;
+
+            font-size: 13px;
+
+            margin-bottom: 8px;
+        }
+
+        select,
+        input {
+            width: 100%;
+
+            background: #07110c;
+
+            color: #caffd8;
+
+            border: 1px solid #286b46;
+
+            border-radius: 6px;
+
+            padding: 13px;
+
+            font-family: inherit;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: #4dff88;
+
+            box-shadow:
+                0 0 10px rgba(77, 255, 136, 0.15);
+        }
+
+        option {
+            background: #07110c;
+
+            color: #caffd8;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        /* Button */
+
+        button {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #38d96e;
+
+            border-radius: 6px;
+
+            background: #0b2917;
+
+            color: #6aff9c;
+
+            font-family: inherit;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        button:hover:not(:disabled) {
+            background: #103d20;
+
+            box-shadow:
+                0 0 15px rgba(65, 255, 120, 0.15);
+        }
+
+        button:disabled {
+            opacity: 0.35;
+
+            cursor: not-allowed;
+        }
+
+        /* Loading */
+
+        #status {
+            margin-top: 15px;
+
+            font-size: 12px;
+
+            color: #719b81;
+        }
+
+        /* Result */
+
+        #result {
+            margin-top: 25px;
+
+            display: none;
+
+            border: 1px solid #286b46;
+
+            border-radius: 8px;
+
+            background: #06100a;
+
+            padding: 20px;
+        }
+
+        .result-title {
+            color: #58ff91;
+
+            margin-bottom: 15px;
+
+            font-size: 13px;
+        }
+
+        .result-line {
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 8px 0;
+
+            border-bottom: 1px dashed #183d27;
+
+            font-size: 14px;
+        }
+
+        .result-line:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            color: #719b81;
+        }
+
+        .result-value {
+            color: #e1ffe9;
+
+            font-weight: bold;
+        }
+
+        .marks {
+            color: #58ff91;
+
+            font-size: 25px;
+        }
+
+        /* Error */
+
+        .error {
+            color: #ff7777;
+        }
+
+        /* Disclaimer */
+
+        .disclaimer {
+            margin-top: 25px;
+
+            padding: 12px;
+
+            border-left: 3px solid #8a6d1f;
+
+            background: #151208;
+
+            color: #a89b70;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+        /* Footer */
+
+        .footer {
+            margin-top: 30px;
+
+            text-align: center;
+
+            font-size: 11px;
+
+            color: #496554;
+        }
+
+        .footer a {
+            color: #58ff91;
+
+            text-decoration: none;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 500px) {
+
+            body {
+                padding: 15px 10px;
+            }
+
+            .content {
+                padding: 22px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            select,
+            input,
+            button {
+                font-size: 14px;
+            }
+        }
+
+    </style>
 </head>
+
+
 <body>
-  <div class="container">
-    <a href="https://pangambam.in/" style="display: inline-block; margin-bottom: 20px; text-decoration: none; color: #007BFF; font-weight: bold; font-size: 18px;">
-      <i class="fas fa-home"></i> Home
-    </a>
 
-    <h1>2026 - Even Semester</h1>
+<div class="terminal">
 
-    <h3>Mid Term - I Results</h3>
+    <!-- Terminal Header -->
 
-    <select id="examSelect" onchange="loadSelectedCSV()">
-      <option value=""> -- Select Paper Code -- </option>
-      <option value="data/Marks/MCAToC.csv">CSA-DSM-2204: MCA-II Theory of Computation</option>
-      <option value="data/Marks/MScPythonTheory.csv">CSA-DSM-221: MSc-II - Python (Theory)</option>
-      <option value="data/Marks/BCAToC.csv">CSA-DSM-613: BCA-VI Theory of Computation</option>
-      <option value="data/Marks/BCAPythonTheory.csv">CSA-DSM-413: BCA-IV - Python (Theory)</option>
-      <option value="data/Marks/MScPythonPractical.csv">CSA-DSM-222: MSc-II - Python (Practical)</option>
-      <option value="data/Marks/BCAPythonPractical.csv">CSA-DSM-414: BCA-IV - Python (Practical)</option>
-    </select>
+    <div class="terminal-header">
 
-    <input type="text" id="rollInput" placeholder="Enter Roll Number (e.g. Y24170501)" />
-    <button id="checkBtn" onclick="searchMarks()" disabled>Submit</button>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
 
-    <div id="result"></div>
+        <div class="terminal-title">
+            marksheet@pangambam:~$
+        </div>
 
-    <p id="disclaimer">
-      <strong>Disclaimer:</strong> The marks displayed here are for quick reference only.
-      In case of any discrepancy, students are advised to verify their marks from the original evaluated manuscript.
-    </p>
+    </div>
 
-    <hr style="margin-top: 30px;"/>
-    <p style="font-size: 14px; color: #666; margin-top: 10px;">
-      &copy; 2026 <a href="https://pangambam.in" target="_blank" style="color: #007BFF; text-decoration: none;">Pangambam</a>
-    </p>
-  </div>
 
-  <script>
-    let marksData = [];
-    const checkBtn = document.getElementById("checkBtn");
+    <!-- Content -->
 
-    function loadSelectedCSV() {
-      const examSelect = document.getElementById("examSelect");
-      const selectedCSV = examSelect.value;
-      const resultDiv = document.getElementById("result");
-      marksData = [];
-      checkBtn.disabled = true;
+    <div class="content">
 
-      if (!selectedCSV) {
-        resultDiv.innerHTML = '';
-        return;
-      }
+        <div class="prompt">
+            $ ./student_marks
+        </div>
 
-      resultDiv.innerHTML = 'Loading marks...';
+        <h1>Student Marksheets</h1>
 
-      Papa.parse(selectedCSV, {
-        download: true,
-        header: true,
-        complete: function(results) {
-          marksData = results.data;
-          resultDiv.innerHTML = 'Please enter roll number.';
-          checkBtn.disabled = false;
-        },
-        error: function(err) {
-          resultDiv.innerHTML = "Final mark not ready. Please wait for sometime.";
-          console.error(err);
+        <div class="subtitle">
+            2026 · Even Semester · Mid Term I
+        </div>
+
+
+        <!-- Subject -->
+
+        <div class="field">
+
+            <label>
+                &gt; SELECT SUBJECT
+            </label>
+
+            <select id="examSelect">
+
+                <option value="">
+                    Loading subjects...
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- Roll Number -->
+
+        <div class="field">
+
+            <label>
+                &gt; ENTER ROLL NUMBER
+            </label>
+
+            <input
+                type="text"
+                id="rollInput"
+                placeholder="e.g. Y24170501"
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <!-- Button -->
+
+        <button
+            id="checkBtn"
+            disabled
+        >
+            [ CHECK MARKS ]
+        </button>
+
+
+        <!-- Status -->
+
+        <div id="status">
+            Connecting to marks database...
+        </div>
+
+
+        <!-- Result -->
+
+        <div id="result"></div>
+
+
+        <!-- Disclaimer -->
+
+        <div class="disclaimer">
+
+            <strong>NOTE:</strong>
+
+            Marks displayed here are for quick reference only.
+            In case of any discrepancy, students should verify
+            their marks from the original evaluated manuscript.
+
+        </div>
+
+
+        <!-- Footer -->
+
+        <div class="footer">
+
+            &copy; 2026
+            <a href="https://pangambam.in" target="_blank">
+                Pangambam
+            </a>
+
+            · Student Academic Portal
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /*
+     * ============================================================
+     * CONFIGURATION
+     * ============================================================
+     */
+
+    const GITHUB_USER = "Pangambam";
+
+    const GITHUB_REPO = "mywebpages";
+
+    const MARKS_FOLDER = "data/Marks";
+
+
+    /*
+     * ============================================================
+     * VARIABLES
+     * ============================================================
+     */
+
+    let subjects = [];
+
+    let selectedSubject = null;
+
+
+    const examSelect =
+        document.getElementById("examSelect");
+
+    const rollInput =
+        document.getElementById("rollInput");
+
+    const checkBtn =
+        document.getElementById("checkBtn");
+
+    const resultDiv =
+        document.getElementById("result");
+
+    const statusDiv =
+        document.getElementById("status");
+
+
+    /*
+     * ============================================================
+     * LOAD SUBJECT LIST FROM GITHUB
+     * ============================================================
+     */
+
+    async function loadSubjects() {
+
+        statusDiv.textContent =
+            "Scanning marks directory...";
+
+        try {
+
+            const apiURL =
+                `https://api.github.com/repos/` +
+                `${GITHUB_USER}/${GITHUB_REPO}/contents/` +
+                `${MARKS_FOLDER}`;
+
+            const response =
+                await fetch(apiURL);
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to access marks directory."
+                );
+
+            }
+
+            const files =
+                await response.json();
+
+
+            /*
+             * Only JSON files
+             */
+
+            const jsonFiles =
+                files.filter(file =>
+                    file.type === "file" &&
+                    file.name.toLowerCase().endsWith(".json")
+                );
+
+
+            if (jsonFiles.length === 0) {
+
+                examSelect.innerHTML =
+                    `<option value="">
+                        No subjects found
+                    </option>`;
+
+                statusDiv.textContent =
+                    "No JSON files found.";
+
+                return;
+            }
+
+
+            /*
+             * Clear existing options
+             */
+
+            examSelect.innerHTML =
+                `<option value="">
+                    -- Select Subject --
+                </option>`;
+
+
+            /*
+             * Load metadata from every JSON file
+             */
+
+            for (const file of jsonFiles) {
+
+                try {
+
+                    const response =
+                        await fetch(file.download_url);
+
+                    const data =
+                        await response.json();
+
+
+                    subjects.push({
+
+                        file: file.name,
+
+                        url: file.download_url,
+
+                        subject:
+                            data.subject ||
+                            file.name.replace(".json", ""),
+
+                        code:
+                            data.code || "",
+
+                        className:
+                            data.class || "",
+
+                        type:
+                            data.type || ""
+
+                    });
+
+                }
+                catch (error) {
+
+                    console.error(
+                        "Error reading:",
+                        file.name,
+                        error
+                    );
+
+                }
+
+            }
+
+
+            /*
+             * Sort alphabetically
+             */
+
+            subjects.sort((a, b) =>
+                a.code.localeCompare(b.code)
+            );
+
+
+            /*
+             * Create dropdown
+             */
+
+            subjects.forEach((subject, index) => {
+
+                const option =
+                    document.createElement("option");
+
+                option.value = index;
+
+                option.textContent =
+                    `${subject.code} : ` +
+                    `${subject.className} - ` +
+                    `${subject.subject}` +
+                    (subject.type
+                        ? ` (${subject.type})`
+                        : "");
+
+                examSelect.appendChild(option);
+
+            });
+
+
+            statusDiv.textContent =
+                `${subjects.length} subject(s) loaded.`;
+
+
         }
-      });
+        catch (error) {
+
+            console.error(error);
+
+            examSelect.innerHTML =
+                `<option value="">
+                    Unable to load subjects
+                </option>`;
+
+            statusDiv.innerHTML =
+                `<span class="error">
+                    ERROR: Could not connect to GitHub.
+                </span>`;
+
+        }
+
     }
 
-    function searchMarks() {
-      const roll = document.getElementById("rollInput").value.trim().toUpperCase();
-      const resultDiv = document.getElementById("result");
 
-      if (!roll) {
-        resultDiv.innerHTML = "Please enter roll number.";
-        return;
-      }
+    /*
+     * ============================================================
+     * SUBJECT SELECTED
+     * ============================================================
+     */
 
-      const student = marksData.find(s => s.Roll_No && s.Roll_No.trim().toUpperCase() === roll);
+    examSelect.addEventListener(
+        "change",
+        function () {
 
-      if (student) {
+            const index =
+                this.value;
+
+            resultDiv.style.display = "none";
+
+            rollInput.value = "";
+
+            checkBtn.disabled = true;
+
+
+            if (index === "") {
+
+                selectedSubject = null;
+
+                statusDiv.textContent =
+                    "Select a subject.";
+
+                return;
+
+            }
+
+
+            selectedSubject =
+                subjects[index];
+
+
+            statusDiv.textContent =
+                `Selected: ${selectedSubject.code}`;
+
+
+            checkBtn.disabled = false;
+
+            rollInput.focus();
+
+        }
+    );
+
+
+    /*
+     * ============================================================
+     * SEARCH MARKS
+     * ============================================================
+     */
+
+    async function searchMarks() {
+
+        const roll =
+            rollInput.value
+                .trim()
+                .toUpperCase();
+
+
+        if (!selectedSubject) {
+
+            showError(
+                "Please select a subject."
+            );
+
+            return;
+
+        }
+
+
+        if (!roll) {
+
+            showError(
+                "Please enter your roll number."
+            );
+
+            rollInput.focus();
+
+            return;
+
+        }
+
+
+        /*
+         * Show loading
+         */
+
+        checkBtn.disabled = true;
+
+        statusDiv.textContent =
+            "Accessing marks database...";
+
+        resultDiv.style.display = "block";
+
+        resultDiv.innerHTML =
+            `<div class="result-title">
+                &gt; SEARCHING...
+            </div>`;
+
+
+        try {
+
+            /*
+             * Download selected JSON
+             */
+
+            const response =
+                await fetch(
+                    selectedSubject.url
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Could not load marks file."
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            /*
+             * Get students array
+             */
+
+            const students =
+                Array.isArray(data)
+                    ? data
+                    : data.students;
+
+
+            if (!Array.isArray(students)) {
+
+                throw new Error(
+                    "Invalid JSON format."
+                );
+
+            }
+
+
+            /*
+             * Search roll number
+             */
+
+            const student =
+                students.find(
+                    s =>
+                        String(
+                            s.roll || ""
+                        )
+                        .trim()
+                        .toUpperCase()
+                        === roll
+                );
+
+
+            /*
+             * Student found
+             */
+
+            if (student) {
+
+                const subjectName =
+                    data.subject ||
+                    selectedSubject.subject;
+
+                const code =
+                    data.code ||
+                    selectedSubject.code;
+
+                const marks =
+                    student.marks ??
+                    student.Mark ??
+                    "-";
+
+
+                resultDiv.innerHTML = `
+
+                    <div class="result-title">
+                        &gt; RESULT FOUND
+                    </div>
+
+                    <div class="result-line">
+
+                        <span class="result-label">
+                            SUBJECT
+                        </span>
+
+                        <span class="result-value">
+                            ${escapeHTML(subjectName)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="result-line">
+
+                        <span class="result-label">
+                            CODE
+                        </span>
+
+                        <span class="result-value">
+                            ${escapeHTML(code)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="result-line">
+
+                        <span class="result-label">
+                            ROLL NUMBER
+                        </span>
+
+                        <span class="result-value">
+                            ${escapeHTML(
+                                student.roll
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="result-line">
+
+                        <span class="result-label">
+                            MARKS
+                        </span>
+
+                        <span class="result-value marks">
+                            ${escapeHTML(
+                                String(marks)
+                            )}
+                        </span>
+
+                    </div>
+
+                `;
+
+
+                statusDiv.textContent =
+                    "Query completed successfully.";
+
+            }
+
+
+            /*
+             * Student NOT found
+             */
+
+            else {
+
+                resultDiv.innerHTML = `
+
+                    <div class="result-title">
+                        &gt; NO RECORD FOUND
+                    </div>
+
+                    <div class="error">
+
+                        Roll number
+                        <strong>${escapeHTML(roll)}</strong>
+                        was not found for this subject.
+
+                    </div>
+
+                `;
+
+                statusDiv.textContent =
+                    "Query completed.";
+
+            }
+
+
+        }
+        catch (error) {
+
+            console.error(error);
+
+            showError(
+                "Unable to load marks. Please try again."
+            );
+
+        }
+
+
+        checkBtn.disabled = false;
+
+    }
+
+
+    /*
+     * ============================================================
+     * ERROR DISPLAY
+     * ============================================================
+     */
+
+    function showError(message) {
+
+        resultDiv.style.display = "block";
+
         resultDiv.innerHTML = `
-        <div>
-          <div><strong> Roll No:</strong> ${student.Roll_No}</div>
-          <div><strong> Mark:</strong> ${student.Mark}</div>
-        </div> `;
-        }
-      else {
-        resultDiv.innerHTML = "Roll number not found.";
-      }
+
+            <div class="result-title">
+                &gt; ERROR
+            </div>
+
+            <div class="error">
+                ${escapeHTML(message)}
+            </div>
+
+        `;
+
+        statusDiv.textContent =
+            "Operation failed.";
+
     }
-  </script>
+
+
+    /*
+     * ============================================================
+     * SECURITY
+     * Prevent HTML injection from JSON data
+     * ============================================================
+     */
+
+    function escapeHTML(value) {
+
+        return value
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /*
+     * ============================================================
+     * ENTER KEY
+     * ============================================================
+     */
+
+    rollInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Enter" &&
+                !checkBtn.disabled) {
+
+                searchMarks();
+
+            }
+
+        }
+    );
+
+
+    /*
+     * ============================================================
+     * START
+     * ============================================================
+     */
+
+    loadSubjects();
+
+</script>
+
 </body>
 </html>

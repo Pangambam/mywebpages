@@ -2,143 +2,212 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Student Marksheets | Pangambam</title>
 
+
     <style>
+
+        /* =========================================================
+           GENERAL
+        ========================================================= */
 
         * {
             box-sizing: border-box;
         }
 
+
         body {
+
             margin: 0;
+
             min-height: 100vh;
 
-            background:
-                radial-gradient(circle at top, #102820 0%, #050908 45%, #020303 100%);
+            background: #f3f6f9;
 
-            color: #d7ffe5;
+            color: #263238;
 
             font-family:
-                "Courier New",
-                Courier,
-                monospace;
+                "Segoe UI",
+                Arial,
+                sans-serif;
 
             padding: 30px 15px;
         }
 
-        .terminal {
+
+        /* =========================================================
+           MAIN CARD
+        ========================================================= */
+
+        .container {
+
             width: 100%;
+
             max-width: 700px;
 
             margin: auto;
 
-            background: rgba(5, 12, 9, 0.96);
+            background: #ffffff;
 
-            border: 1px solid #1f6b42;
+            border: 1px solid #dce3e8;
 
-            border-radius: 12px;
+            border-radius: 14px;
 
             box-shadow:
-                0 0 40px rgba(0, 255, 120, 0.08),
-                inset 0 0 30px rgba(0, 255, 120, 0.02);
+                0 8px 30px rgba(0, 0, 0, 0.08);
 
             overflow: hidden;
         }
 
-        /* Terminal Header */
 
-        .terminal-header {
-            background: #101815;
+        /* =========================================================
+           HEADER
+        ========================================================= */
 
-            padding: 12px 16px;
+        .header {
 
-            border-bottom: 1px solid #1f6b42;
+            background: #f8fafb;
+
+            border-bottom: 1px solid #e1e7eb;
+
+            padding: 13px 18px;
 
             display: flex;
+
             align-items: center;
+
             gap: 8px;
         }
 
+
         .dot {
-            width: 12px;
-            height: 12px;
+
+            width: 11px;
+
+            height: 11px;
 
             border-radius: 50%;
 
-            background: #345c45;
+            background: #b8c2c8;
         }
 
-        .terminal-title {
-            margin-left: 10px;
 
-            color: #7affae;
+        .terminal-title {
+
+            margin-left: 8px;
+
+            color: #607d8b;
+
+            font-family:
+                "Courier New",
+                monospace;
 
             font-size: 13px;
         }
 
-        /* Main */
+
+        /* =========================================================
+           CONTENT
+        ========================================================= */
 
         .content {
-            padding: 30px;
+
+            padding: 32px;
         }
 
-        .prompt {
-            color: #58ff91;
+
+        .command {
+
+            color: #16803c;
+
+            font-family:
+                "Courier New",
+                monospace;
 
             font-size: 14px;
 
             margin-bottom: 8px;
         }
 
+
         h1 {
+
             margin: 0 0 8px 0;
 
-            font-size: 27px;
+            font-size: 28px;
 
-            color: #e1ffe9;
+            color: #263238;
 
-            font-weight: 600;
+            font-weight: 650;
         }
 
+
         .subtitle {
-            color: #719b81;
+
+            color: #78909c;
+
+            font-family:
+                "Courier New",
+                monospace;
 
             font-size: 13px;
 
             margin-bottom: 30px;
         }
 
-        /* Subject */
+
+        /* =========================================================
+           FORM
+        ========================================================= */
+
+        .field {
+
+            margin-bottom: 22px;
+        }
+
 
         label {
+
             display: block;
 
-            color: #7affae;
+            margin-bottom: 8px;
+
+            color: #455a64;
+
+            font-family:
+                "Courier New",
+                monospace;
 
             font-size: 13px;
 
-            margin-bottom: 8px;
+            font-weight: bold;
         }
+
 
         select,
         input {
+
             width: 100%;
 
-            background: #07110c;
+            padding: 13px 14px;
 
-            color: #caffd8;
+            background: #ffffff;
 
-            border: 1px solid #286b46;
+            color: #263238;
 
-            border-radius: 6px;
+            border: 1px solid #cbd5da;
 
-            padding: 13px;
+            border-radius: 7px;
 
-            font-family: inherit;
+            font-family:
+                "Courier New",
+                monospace;
 
             font-size: 15px;
 
@@ -147,40 +216,53 @@
             transition: 0.2s;
         }
 
+
+        select:hover,
+        input:hover {
+
+            border-color: #90a4ae;
+        }
+
+
         select:focus,
         input:focus {
-            border-color: #4dff88;
+
+            border-color: #219653;
 
             box-shadow:
-                0 0 10px rgba(77, 255, 136, 0.15);
+                0 0 0 3px rgba(33, 150, 83, 0.10);
         }
+
 
         option {
-            background: #07110c;
 
-            color: #caffd8;
+            background: white;
+
+            color: #263238;
         }
 
-        .field {
-            margin-bottom: 20px;
-        }
 
-        /* Button */
+        /* =========================================================
+           BUTTON
+        ========================================================= */
 
         button {
+
             width: 100%;
 
             padding: 13px;
 
-            border: 1px solid #38d96e;
+            background: #16803c;
 
-            border-radius: 6px;
+            color: white;
 
-            background: #0b2917;
+            border: none;
 
-            color: #6aff9c;
+            border-radius: 7px;
 
-            font-family: inherit;
+            font-family:
+                "Courier New",
+                monospace;
 
             font-size: 15px;
 
@@ -191,164 +273,284 @@
             transition: 0.2s;
         }
 
+
         button:hover:not(:disabled) {
-            background: #103d20;
+
+            background: #126b32;
 
             box-shadow:
-                0 0 15px rgba(65, 255, 120, 0.15);
+                0 4px 12px rgba(22, 128, 60, 0.20);
         }
+
+
+        button:active:not(:disabled) {
+
+            transform: translateY(1px);
+        }
+
 
         button:disabled {
-            opacity: 0.35;
+
+            background: #b0bec5;
 
             cursor: not-allowed;
+
+            box-shadow: none;
         }
 
-        /* Loading */
+
+        /* =========================================================
+           STATUS
+        ========================================================= */
 
         #status {
-            margin-top: 15px;
+
+            margin-top: 13px;
+
+            color: #78909c;
+
+            font-family:
+                "Courier New",
+                monospace;
 
             font-size: 12px;
-
-            color: #719b81;
         }
 
-        /* Result */
+
+        /* =========================================================
+           RESULT
+        ========================================================= */
 
         #result {
-            margin-top: 25px;
 
             display: none;
 
-            border: 1px solid #286b46;
-
-            border-radius: 8px;
-
-            background: #06100a;
+            margin-top: 25px;
 
             padding: 20px;
+
+            background: #f8fafb;
+
+            border: 1px solid #dce5e9;
+
+            border-radius: 9px;
         }
 
+
         .result-title {
-            color: #58ff91;
 
             margin-bottom: 15px;
 
+            color: #16803c;
+
+            font-family:
+                "Courier New",
+                monospace;
+
             font-size: 13px;
-        }
-
-        .result-line {
-            display: flex;
-
-            justify-content: space-between;
-
-            padding: 8px 0;
-
-            border-bottom: 1px dashed #183d27;
-
-            font-size: 14px;
-        }
-
-        .result-line:last-child {
-            border-bottom: none;
-        }
-
-        .result-label {
-            color: #719b81;
-        }
-
-        .result-value {
-            color: #e1ffe9;
 
             font-weight: bold;
         }
 
+
+        .result-line {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            padding: 11px 0;
+
+            border-bottom: 1px dashed #d5dde1;
+
+            font-family:
+                "Courier New",
+                monospace;
+
+            font-size: 14px;
+        }
+
+
+        .result-line:last-child {
+
+            border-bottom: none;
+        }
+
+
+        .result-label {
+
+            color: #78909c;
+        }
+
+
+        .result-value {
+
+            color: #263238;
+
+            font-weight: bold;
+
+            text-align: right;
+        }
+
+
         .marks {
-            color: #58ff91;
+
+            color: #16803c;
 
             font-size: 25px;
         }
 
-        /* Error */
+
+        /* =========================================================
+           ERROR
+        ========================================================= */
 
         .error {
-            color: #ff7777;
-        }
 
-        /* Disclaimer */
+            color: #c62828;
 
-        .disclaimer {
-            margin-top: 25px;
+            font-family:
+                "Courier New",
+                monospace;
 
-            padding: 12px;
-
-            border-left: 3px solid #8a6d1f;
-
-            background: #151208;
-
-            color: #a89b70;
-
-            font-size: 11px;
+            font-size: 13px;
 
             line-height: 1.6;
         }
 
-        /* Footer */
+
+        /* =========================================================
+           DISCLAIMER
+        ========================================================= */
+
+        .disclaimer {
+
+            margin-top: 25px;
+
+            padding: 13px 15px;
+
+            background: #fff9e6;
+
+            border-left: 3px solid #e0a800;
+
+            color: #795548;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
 
         .footer {
+
             margin-top: 30px;
+
+            padding-top: 18px;
+
+            border-top: 1px solid #edf0f2;
 
             text-align: center;
 
-            font-size: 11px;
+            color: #90a4ae;
 
-            color: #496554;
+            font-size: 11px;
         }
+
 
         .footer a {
-            color: #58ff91;
+
+            color: #16803c;
 
             text-decoration: none;
+
+            font-weight: 600;
         }
 
-        /* Mobile */
+
+        .footer a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
 
         @media (max-width: 500px) {
 
             body {
+
                 padding: 15px 10px;
             }
 
+
             .content {
+
                 padding: 22px;
             }
 
+
             h1 {
-                font-size: 22px;
+
+                font-size: 23px;
             }
+
 
             select,
             input,
             button {
+
                 font-size: 14px;
             }
+
+
+            .result-line {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 4px;
+            }
+
+
+            .result-value {
+
+                text-align: left;
+            }
+
         }
 
     </style>
+
 </head>
 
 
 <body>
 
-<div class="terminal">
 
-    <!-- Terminal Header -->
+<div class="container">
 
-    <div class="terminal-header">
+
+    <!-- =========================================================
+         HEADER
+    ========================================================== -->
+
+    <div class="header">
 
         <div class="dot"></div>
+
         <div class="dot"></div>
+
         <div class="dot"></div>
 
         <div class="terminal-title">
@@ -358,28 +560,40 @@
     </div>
 
 
-    <!-- Content -->
+
+    <!-- =========================================================
+         CONTENT
+    ========================================================== -->
 
     <div class="content">
 
-        <div class="prompt">
+
+        <div class="command">
             $ ./student_marks
         </div>
 
-        <h1>Student Marksheets</h1>
+
+        <h1>
+            Student Marksheets
+        </h1>
+
 
         <div class="subtitle">
             2026 · Even Semester · Mid Term I
         </div>
 
 
-        <!-- Subject -->
+
+        <!-- =====================================================
+             SUBJECT
+        ====================================================== -->
 
         <div class="field">
 
             <label>
                 &gt; SELECT SUBJECT
             </label>
+
 
             <select id="examSelect">
 
@@ -392,7 +606,10 @@
         </div>
 
 
-        <!-- Roll Number -->
+
+        <!-- =====================================================
+             ROLL NUMBER
+        ====================================================== -->
 
         <div class="field">
 
@@ -400,17 +617,21 @@
                 &gt; ENTER ROLL NUMBER
             </label>
 
+
             <input
                 type="text"
                 id="rollInput"
-                placeholder="e.g. Y24170501"
+                placeholder="e.g. Y25246002"
                 autocomplete="off"
             >
 
         </div>
 
 
-        <!-- Button -->
+
+        <!-- =====================================================
+             BUTTON
+        ====================================================== -->
 
         <button
             id="checkBtn"
@@ -420,19 +641,28 @@
         </button>
 
 
-        <!-- Status -->
+
+        <!-- =====================================================
+             STATUS
+        ====================================================== -->
 
         <div id="status">
             Connecting to marks database...
         </div>
 
 
-        <!-- Result -->
+
+        <!-- =====================================================
+             RESULT
+        ====================================================== -->
 
         <div id="result"></div>
 
 
-        <!-- Disclaimer -->
+
+        <!-- =====================================================
+             DISCLAIMER
+        ====================================================== -->
 
         <div class="disclaimer">
 
@@ -445,12 +675,19 @@
         </div>
 
 
-        <!-- Footer -->
+
+        <!-- =====================================================
+             FOOTER
+        ====================================================== -->
 
         <div class="footer">
 
             &copy; 2026
-            <a href="https://pangambam.in" target="_blank">
+
+            <a
+                href="https://pangambam.in"
+                target="_blank"
+            >
                 Pangambam
             </a>
 
@@ -458,603 +695,673 @@
 
         </div>
 
+
     </div>
 
 </div>
 
 
+
 <script>
 
-    /*
-     * ============================================================
-     * CONFIGURATION
-     * ============================================================
-     */
 
-    const GITHUB_USER = "Pangambam";
+/* =============================================================
+   CONFIGURATION
+============================================================= */
 
-    const GITHUB_REPO = "mywebpages";
+const GITHUB_USER = "Pangambam";
 
-    const MARKS_FOLDER = "data/Marks";
+const GITHUB_REPO = "mywebpages";
 
-
-    /*
-     * ============================================================
-     * VARIABLES
-     * ============================================================
-     */
-
-    let subjects = [];
-
-    let selectedSubject = null;
+const MARKS_FOLDER = "data/Marks";
 
 
-    const examSelect =
-        document.getElementById("examSelect");
 
-    const rollInput =
-        document.getElementById("rollInput");
+/* =============================================================
+   VARIABLES
+============================================================= */
 
-    const checkBtn =
-        document.getElementById("checkBtn");
+let subjects = [];
 
-    const resultDiv =
-        document.getElementById("result");
-
-    const statusDiv =
-        document.getElementById("status");
+let selectedSubject = null;
 
 
-    /*
-     * ============================================================
-     * LOAD SUBJECT LIST FROM GITHUB
-     * ============================================================
-     */
 
-    async function loadSubjects() {
+/* =============================================================
+   ELEMENTS
+============================================================= */
 
-        statusDiv.textContent =
-            "Scanning marks directory...";
+const examSelect =
+    document.getElementById("examSelect");
 
-        try {
+const rollInput =
+    document.getElementById("rollInput");
 
-            const apiURL =
-                `https://api.github.com/repos/` +
-                `${GITHUB_USER}/${GITHUB_REPO}/contents/` +
-                `${MARKS_FOLDER}`;
+const checkBtn =
+    document.getElementById("checkBtn");
 
-            const response =
-                await fetch(apiURL);
+const resultDiv =
+    document.getElementById("result");
 
-            if (!response.ok) {
-
-                throw new Error(
-                    "Unable to access marks directory."
-                );
-
-            }
-
-            const files =
-                await response.json();
+const statusDiv =
+    document.getElementById("status");
 
 
-            /*
-             * Only JSON files
-             */
 
-            const jsonFiles =
-                files.filter(file =>
-                    file.type === "file" &&
-                    file.name.toLowerCase().endsWith(".json")
-                );
+/* =============================================================
+   LOAD SUBJECTS FROM GITHUB
+============================================================= */
 
+async function loadSubjects() {
 
-            if (jsonFiles.length === 0) {
-
-                examSelect.innerHTML =
-                    `<option value="">
-                        No subjects found
-                    </option>`;
-
-                statusDiv.textContent =
-                    "No JSON files found.";
-
-                return;
-            }
+    statusDiv.textContent =
+        "Scanning marks directory...";
 
 
-            /*
-             * Clear existing options
-             */
+    try {
 
-            examSelect.innerHTML =
-                `<option value="">
-                    -- Select Subject --
-                </option>`;
+        const apiURL =
+            `https://api.github.com/repos/` +
+            `${GITHUB_USER}/${GITHUB_REPO}/contents/` +
+            `${MARKS_FOLDER}`;
 
 
-            /*
-             * Load metadata from every JSON file
-             */
-
-            for (const file of jsonFiles) {
-
-                try {
-
-                    const response =
-                        await fetch(file.download_url);
-
-                    const data =
-                        await response.json();
+        const response =
+            await fetch(apiURL);
 
 
-                    subjects.push({
+        if (!response.ok) {
 
-                        file: file.name,
-
-                        url: file.download_url,
-
-                        subject:
-                            data.subject ||
-                            file.name.replace(".json", ""),
-
-                        code:
-                            data.code || "",
-
-                        className:
-                            data.class || "",
-
-                        type:
-                            data.type || ""
-
-                    });
-
-                }
-                catch (error) {
-
-                    console.error(
-                        "Error reading:",
-                        file.name,
-                        error
-                    );
-
-                }
-
-            }
+            throw new Error(
+                "Unable to access marks directory."
+            );
+        }
 
 
-            /*
-             * Sort alphabetically
-             */
+        const files =
+            await response.json();
 
-            subjects.sort((a, b) =>
-                a.code.localeCompare(b.code)
+
+        /* Only JSON files */
+
+        const jsonFiles =
+            files.filter(file =>
+                file.type === "file" &&
+                file.name
+                    .toLowerCase()
+                    .endsWith(".json")
             );
 
 
-            /*
-             * Create dropdown
-             */
+        if (jsonFiles.length === 0) {
 
-            subjects.forEach((subject, index) => {
+            examSelect.innerHTML = `
+                <option value="">
+                    No subjects found
+                </option>
+            `;
+
+            statusDiv.textContent =
+                "No JSON files found.";
+
+            return;
+        }
+
+
+        examSelect.innerHTML = `
+            <option value="">
+                -- Select Subject --
+            </option>
+        `;
+
+
+        subjects = [];
+
+
+        /* Read metadata */
+
+        for (const file of jsonFiles) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        file.download_url
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                subjects.push({
+
+                    file: file.name,
+
+                    url: file.download_url,
+
+                    subject:
+                        data.subject ||
+                        file.name.replace(
+                            ".json",
+                            ""
+                        ),
+
+                    code:
+                        data.code || "",
+
+                    className:
+                        data.class || "",
+
+                    type:
+                        data.type || ""
+
+                });
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Error reading:",
+                    file.name,
+                    error
+                );
+
+            }
+
+        }
+
+
+        /* Sort by code */
+
+        subjects.sort((a, b) =>
+            a.code.localeCompare(b.code)
+        );
+
+
+        /* Create dropdown */
+
+        subjects.forEach(
+            (subject, index) => {
 
                 const option =
-                    document.createElement("option");
+                    document.createElement(
+                        "option"
+                    );
+
 
                 option.value = index;
+
 
                 option.textContent =
                     `${subject.code} : ` +
                     `${subject.className} - ` +
                     `${subject.subject}` +
-                    (subject.type
-                        ? ` (${subject.type})`
-                        : "");
-
-                examSelect.appendChild(option);
-
-            });
+                    (
+                        subject.type
+                            ? ` (${subject.type})`
+                            : ""
+                    );
 
 
-            statusDiv.textContent =
-                `${subjects.length} subject(s) loaded.`;
+                examSelect.appendChild(
+                    option
+                );
+
+            }
+        );
 
 
-        }
-        catch (error) {
+        statusDiv.textContent =
+            `${subjects.length} subject(s) loaded.`;
 
-            console.error(error);
-
-            examSelect.innerHTML =
-                `<option value="">
-                    Unable to load subjects
-                </option>`;
-
-            statusDiv.innerHTML =
-                `<span class="error">
-                    ERROR: Could not connect to GitHub.
-                </span>`;
-
-        }
 
     }
 
+    catch (error) {
 
-    /*
-     * ============================================================
-     * SUBJECT SELECTED
-     * ============================================================
-     */
-
-    examSelect.addEventListener(
-        "change",
-        function () {
-
-            const index =
-                this.value;
-
-            resultDiv.style.display = "none";
-
-            rollInput.value = "";
-
-            checkBtn.disabled = true;
+        console.error(error);
 
 
-            if (index === "") {
-
-                selectedSubject = null;
-
-                statusDiv.textContent =
-                    "Select a subject.";
-
-                return;
-
-            }
+        examSelect.innerHTML = `
+            <option value="">
+                Unable to load subjects
+            </option>
+        `;
 
 
-            selectedSubject =
-                subjects[index];
+        statusDiv.innerHTML = `
+            <span class="error">
+                ERROR: Could not connect to GitHub.
+            </span>
+        `;
+
+    }
+
+}
 
 
-            statusDiv.textContent =
-                `Selected: ${selectedSubject.code}`;
+
+/* =============================================================
+   SUBJECT SELECTION
+============================================================= */
+
+examSelect.addEventListener(
+    "change",
+    function () {
+
+        const index = this.value;
 
 
-            checkBtn.disabled = false;
-
-            rollInput.focus();
-
-        }
-    );
+        resultDiv.style.display =
+            "none";
 
 
-    /*
-     * ============================================================
-     * SEARCH MARKS
-     * ============================================================
-     */
+        rollInput.value = "";
 
-    async function searchMarks() {
-
-        const roll =
-            rollInput.value
-                .trim()
-                .toUpperCase();
-
-
-        if (!selectedSubject) {
-
-            showError(
-                "Please select a subject."
-            );
-
-            return;
-
-        }
-
-
-        if (!roll) {
-
-            showError(
-                "Please enter your roll number."
-            );
-
-            rollInput.focus();
-
-            return;
-
-        }
-
-
-        /*
-         * Show loading
-         */
 
         checkBtn.disabled = true;
 
+
+        if (index === "") {
+
+            selectedSubject = null;
+
+
+            statusDiv.textContent =
+                "Select a subject.";
+
+            return;
+        }
+
+
+        selectedSubject =
+            subjects[index];
+
+
         statusDiv.textContent =
-            "Accessing marks database...";
-
-        resultDiv.style.display = "block";
-
-        resultDiv.innerHTML =
-            `<div class="result-title">
-                &gt; SEARCHING...
-            </div>`;
-
-
-        try {
-
-            /*
-             * Download selected JSON
-             */
-
-            const response =
-                await fetch(
-                    selectedSubject.url
-                );
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "Could not load marks file."
-                );
-
-            }
-
-
-            const data =
-                await response.json();
-
-
-            /*
-             * Get students array
-             */
-
-            const students =
-                Array.isArray(data)
-                    ? data
-                    : data.students;
-
-
-            if (!Array.isArray(students)) {
-
-                throw new Error(
-                    "Invalid JSON format."
-                );
-
-            }
-
-
-            /*
-             * Search roll number
-             */
-
-            const student =
-                students.find(
-                    s =>
-                        String(
-                            s.roll || ""
-                        )
-                        .trim()
-                        .toUpperCase()
-                        === roll
-                );
-
-
-            /*
-             * Student found
-             */
-
-            if (student) {
-
-                const subjectName =
-                    data.subject ||
-                    selectedSubject.subject;
-
-                const code =
-                    data.code ||
-                    selectedSubject.code;
-
-                const marks =
-                    student.marks ??
-                    student.Mark ??
-                    "-";
-
-
-                resultDiv.innerHTML = `
-
-                    <div class="result-title">
-                        &gt; RESULT FOUND
-                    </div>
-
-                    <div class="result-line">
-
-                        <span class="result-label">
-                            SUBJECT
-                        </span>
-
-                        <span class="result-value">
-                            ${escapeHTML(subjectName)}
-                        </span>
-
-                    </div>
-
-
-                    <div class="result-line">
-
-                        <span class="result-label">
-                            CODE
-                        </span>
-
-                        <span class="result-value">
-                            ${escapeHTML(code)}
-                        </span>
-
-                    </div>
-
-
-                    <div class="result-line">
-
-                        <span class="result-label">
-                            ROLL NUMBER
-                        </span>
-
-                        <span class="result-value">
-                            ${escapeHTML(
-                                student.roll
-                            )}
-                        </span>
-
-                    </div>
-
-
-                    <div class="result-line">
-
-                        <span class="result-label">
-                            MARKS
-                        </span>
-
-                        <span class="result-value marks">
-                            ${escapeHTML(
-                                String(marks)
-                            )}
-                        </span>
-
-                    </div>
-
-                `;
-
-
-                statusDiv.textContent =
-                    "Query completed successfully.";
-
-            }
-
-
-            /*
-             * Student NOT found
-             */
-
-            else {
-
-                resultDiv.innerHTML = `
-
-                    <div class="result-title">
-                        &gt; NO RECORD FOUND
-                    </div>
-
-                    <div class="error">
-
-                        Roll number
-                        <strong>${escapeHTML(roll)}</strong>
-                        was not found for this subject.
-
-                    </div>
-
-                `;
-
-                statusDiv.textContent =
-                    "Query completed.";
-
-            }
-
-
-        }
-        catch (error) {
-
-            console.error(error);
-
-            showError(
-                "Unable to load marks. Please try again."
-            );
-
-        }
+            `Selected: ${selectedSubject.code}`;
 
 
         checkBtn.disabled = false;
 
+
+        rollInput.focus();
+
+    }
+);
+
+
+
+/* =============================================================
+   SEARCH MARKS
+============================================================= */
+
+async function searchMarks() {
+
+
+    const roll =
+        rollInput.value
+            .trim()
+            .toUpperCase();
+
+
+    if (!selectedSubject) {
+
+        showError(
+            "Please select a subject."
+        );
+
+        return;
     }
 
 
-    /*
-     * ============================================================
-     * ERROR DISPLAY
-     * ============================================================
-     */
+    if (!roll) {
 
-    function showError(message) {
+        showError(
+            "Please enter your roll number."
+        );
 
-        resultDiv.style.display = "block";
+        rollInput.focus();
 
-        resultDiv.innerHTML = `
-
-            <div class="result-title">
-                &gt; ERROR
-            </div>
-
-            <div class="error">
-                ${escapeHTML(message)}
-            </div>
-
-        `;
-
-        statusDiv.textContent =
-            "Operation failed.";
-
+        return;
     }
 
 
-    /*
-     * ============================================================
-     * SECURITY
-     * Prevent HTML injection from JSON data
-     * ============================================================
-     */
+    /* Loading */
 
-    function escapeHTML(value) {
-
-        return value
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-
-    }
+    checkBtn.disabled = true;
 
 
-    /*
-     * ============================================================
-     * ENTER KEY
-     * ============================================================
-     */
+    statusDiv.textContent =
+        "Accessing marks database...";
 
-    rollInput.addEventListener(
-        "keydown",
-        function (event) {
 
-            if (event.key === "Enter" &&
-                !checkBtn.disabled) {
+    resultDiv.style.display =
+        "block";
 
-                searchMarks();
 
-            }
+    resultDiv.innerHTML = `
+
+        <div class="result-title">
+            &gt; SEARCHING...
+        </div>
+
+    `;
+
+
+    try {
+
+        /* Download JSON */
+
+        const response =
+            await fetch(
+                selectedSubject.url
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Could not load marks file."
+            );
+        }
+
+
+        const data =
+            await response.json();
+
+
+        /*
+         * Supports:
+         *
+         * {
+         *    students: [...]
+         * }
+         *
+         * and also a direct array
+         */
+
+        const students =
+            Array.isArray(data)
+                ? data
+                : data.students;
+
+
+        if (!Array.isArray(students)) {
+
+            throw new Error(
+                "Invalid JSON format."
+            );
+        }
+
+
+        /* Search roll */
+
+        const student =
+            students.find(
+                s =>
+                    String(
+                        s.roll || ""
+                    )
+                    .trim()
+                    .toUpperCase()
+                    === roll
+            );
+
+
+        /* =====================================================
+           FOUND
+        ====================================================== */
+
+        if (student) {
+
+
+            const subjectName =
+                data.subject ||
+                selectedSubject.subject;
+
+
+            const code =
+                data.code ||
+                selectedSubject.code;
+
+
+            /*
+             * Accept both:
+             *
+             * marks
+             * Mark
+             */
+
+            const marks =
+                student.marks ??
+                student.Mark ??
+                "-";
+
+
+            resultDiv.innerHTML = `
+
+                <div class="result-title">
+                    &gt; RESULT FOUND
+                </div>
+
+
+                <div class="result-line">
+
+                    <span class="result-label">
+                        SUBJECT
+                    </span>
+
+                    <span class="result-value">
+                        ${escapeHTML(
+                            String(subjectName)
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="result-line">
+
+                    <span class="result-label">
+                        CODE
+                    </span>
+
+                    <span class="result-value">
+                        ${escapeHTML(
+                            String(code)
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="result-line">
+
+                    <span class="result-label">
+                        ROLL NUMBER
+                    </span>
+
+                    <span class="result-value">
+                        ${escapeHTML(
+                            String(student.roll)
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="result-line">
+
+                    <span class="result-label">
+                        MARKS
+                    </span>
+
+                    <span class="result-value marks">
+                        ${escapeHTML(
+                            String(marks)
+                        )}
+                    </span>
+
+                </div>
+
+            `;
+
+
+            statusDiv.textContent =
+                "Query completed successfully.";
 
         }
-    );
 
 
-    /*
-     * ============================================================
-     * START
-     * ============================================================
-     */
+        /* =====================================================
+           NOT FOUND
+        ====================================================== */
 
-    loadSubjects();
+        else {
+
+            resultDiv.innerHTML = `
+
+                <div class="result-title">
+                    &gt; NO RECORD FOUND
+                </div>
+
+
+                <div class="error">
+
+                    Roll number
+                    <strong>
+                        ${escapeHTML(roll)}
+                    </strong>
+                    was not found for this subject.
+
+                </div>
+
+            `;
+
+
+            statusDiv.textContent =
+                "Query completed.";
+
+        }
+
+    }
+
+
+    catch (error) {
+
+        console.error(error);
+
+
+        showError(
+            "Unable to load marks. Please try again."
+        );
+
+    }
+
+
+    checkBtn.disabled = false;
+
+}
+
+
+
+/* =============================================================
+   IMPORTANT:
+   BUTTON CLICK
+============================================================= */
+
+checkBtn.addEventListener(
+    "click",
+    searchMarks
+);
+
+
+
+/* =============================================================
+   ERROR DISPLAY
+============================================================= */
+
+function showError(message) {
+
+    resultDiv.style.display =
+        "block";
+
+
+    resultDiv.innerHTML = `
+
+        <div class="result-title">
+            &gt; ERROR
+        </div>
+
+
+        <div class="error">
+            ${escapeHTML(
+                String(message)
+            )}
+        </div>
+
+    `;
+
+
+    statusDiv.textContent =
+        "Operation failed.";
+
+}
+
+
+
+/* =============================================================
+   SECURITY
+============================================================= */
+
+function escapeHTML(value) {
+
+    return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+
+/* =============================================================
+   ENTER KEY
+============================================================= */
+
+rollInput.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.key === "Enter" &&
+            !checkBtn.disabled
+        ) {
+
+            searchMarks();
+
+        }
+
+    }
+);
+
+
+
+/* =============================================================
+   START
+============================================================= */
+
+loadSubjects();
+
 
 </script>
 
+
 </body>
+
 </html>

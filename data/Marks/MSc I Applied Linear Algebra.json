@@ -1,0 +1,92 @@
+{
+    "subject": "Applied Linear Algebra",
+    "code": "CSA-GE-121-B",
+    "class": "MSc-I",
+    "type": "Theory",
+    "students": [
+        {
+            "roll": "Y26246001",
+            "marks": 11
+        },
+        {
+            "roll": "Y26246002",
+            "marks": 11
+        },
+        {
+            "roll": "Y26246003",
+            "marks": "Absent"
+        },
+        {
+            "roll": "Y26246004",
+            "marks": 8
+        },
+        {
+            "roll": "Y26246005",
+            "marks": 19
+        },
+        {
+            "roll": "Y26246006",
+            "marks": 11
+        },
+        {
+            "roll": "Y26246007",
+            "marks": "Absent"
+        },
+        {
+            "roll": "Y26246008",
+            "marks": 5
+        },
+        {
+            "roll": "Y26246009",
+            "marks": 11
+        },
+        {
+            "roll": "Y26246010",
+            "marks": 7
+        },
+        {
+            "roll": "Y26246011",
+            "marks": 13
+        },
+        {
+            "roll": "Y26246012",
+            "marks": 4
+        },
+        {
+            "roll": "Y26246013",
+            "marks": 6
+        },
+        {
+            "roll": "Y26246014",
+            "marks": 9
+        },
+        {
+            "roll": "Y26246015",
+            "marks": 8
+        },
+        {
+            "roll": "Y26246016",
+            "marks": 6
+        },
+        {
+            "roll": "Y26246017",
+            "marks": 15
+        },
+        {
+            "roll": "Y26246018",
+            "marks": 12
+        },
+        {
+            "roll": "Y26246019",
+            "marks": 8
+        },
+        {
+            "roll": "Y26246020",
+            "marks": 9
+        },
+        {
+            "roll": "Y26246021",
+            "marks": 11
+        }
+    ]
+}
